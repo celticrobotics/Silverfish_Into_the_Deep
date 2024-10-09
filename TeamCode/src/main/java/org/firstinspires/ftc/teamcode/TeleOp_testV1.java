@@ -17,6 +17,11 @@ public class TeleOp_testV1 extends LinearOpMode {
 
     DcMotor sideSlide;
 
+    DcMotor FL;
+    DcMotor BL;
+    DcMotor FR;
+    DcMotor BR;
+
     DcMotor upSlide;
     double tgt = 0;
     double tgtslide;
@@ -40,6 +45,16 @@ public class TeleOp_testV1 extends LinearOpMode {
 
         upSlide = hardwareMap.get(DcMotor.class, "upSlide");
 
+        FL = hardwareMap.get(DcMotor.class, "FL");
+        FR = hardwareMap.get(DcMotor.class, "FR");
+        BL = hardwareMap.get(DcMotor.class, "BL");
+        BR = hardwareMap.get(DcMotor.class, "BR");
+
+        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         //Declare motor position variables
 
         sideSlidePos = sideSlide.getCurrentPosition();
@@ -62,6 +77,7 @@ public class TeleOp_testV1 extends LinearOpMode {
 
         while(opModeIsActive())
         {
+            Move();
 
             sideSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -105,14 +121,14 @@ public class TeleOp_testV1 extends LinearOpMode {
 //            tgt = -this.gamepad1.left_stick_y;
 //            Thing2.setPosition(tgt);
 
-            if(gamepad1.left_bumper)
+            if(gamepad2.x)
             {
-                sideSlidePos += 50;
+                sideSlidePos += 100;
 
             }
-            else if(gamepad1.right_bumper)
+            else if(gamepad2.b)
             {
-                sideSlidePos -= 50;
+                sideSlidePos -= 100;
             }
 
             if(gamepad1.dpad_right)
@@ -132,11 +148,11 @@ public class TeleOp_testV1 extends LinearOpMode {
 
             if(gamepad1.dpad_up)
             {
-                upSlide.setTargetPosition(2000);
+                upSlide.setTargetPosition(3000);
             }
             else if(gamepad1.dpad_down)
             {
-                upSlide.setTargetPosition(0);
+                upSlide.setTargetPosition(150);
             }
 
             sideSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -156,6 +172,17 @@ public class TeleOp_testV1 extends LinearOpMode {
         sideSlide.setDirection(DcMotorSimple.Direction.REVERSE);
         upSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         upSlide.setDirection(DcMotorSimple.Direction.FORWARD);
+    }
+
+    private void Move() {
+        // The Y axis of a joystick ranges from -1 in its topmost position to +1 in its bottommost position.
+        // We negate this value so that the topmost position corresponds to maximum forward power.
+        BR.setPower(0.5 * (1 * -gamepad1.left_stick_y + 1 * (1 * gamepad1.left_stick_x - gamepad1.right_stick_x)));
+        BL.setPower(0.5 * (1 * gamepad1.left_stick_y + 1 * (1 * gamepad1.left_stick_x - gamepad1.right_stick_x)));
+        // The Y axis of a joystick ranges from -1 in its topmost position to +1 in its bottommost position.
+        // We negate this value so that the topmost position corresponds to maximum forward power.
+        FR.setPower(0.5 * (1 * -gamepad1.left_stick_y + 1 * (1 * -gamepad1.left_stick_x - gamepad1.right_stick_x)));
+        FL.setPower(0.5 * (1 * gamepad1.left_stick_y + 1 * -(1 * gamepad1.left_stick_x + gamepad1.right_stick_x)));
     }
 
 
