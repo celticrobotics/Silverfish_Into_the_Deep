@@ -27,7 +27,7 @@ public class TeleOp_testV1 extends LinearOpMode {
     double tgtslide;
 
     //Slides Pos Variables
-    double sideSlidePos;
+    int sideSlidePos;
     double upSlidePos;
 
     @Override
@@ -69,43 +69,28 @@ public class TeleOp_testV1 extends LinearOpMode {
 
         sideSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        sideSlide.setPower(1);
         upSlide.setPower(1);
         Thing2.setPosition(0);
         sideSlide.setTargetPosition(0);
         upSlide.setTargetPosition(150);
 
-        while(opModeIsActive())
-        {
+        while(opModeIsActive()) {
             Move();
-
-            sideSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            while (sideSlide.isBusy() || upSlide.isBusy() && !isStopRequested())
-            {
-                idle();
-            }
 
 
             //Thing1 and Elbow Button Control
 
-            if(gamepad1.a)
-            {
+            if (gamepad1.a) {
                 Thing1.setPosition(0);
-            }
-            else if(gamepad1.y){
+            } else if (gamepad1.y) {
                 Thing1.setPosition(1);
-            }
-            else{
+            } else {
                 Thing1.setPosition(0.5);
             }
-            if(gamepad1.x){
+            if (gamepad1.x) {
                 Elbow.setPosition(0.9);
 
-            }
-            else if(gamepad1.b)
-            {
+            } else if (gamepad1.b) {
                 Elbow.setPosition(0.24);
             }
 
@@ -121,43 +106,37 @@ public class TeleOp_testV1 extends LinearOpMode {
 //            tgt = -this.gamepad1.left_stick_y;
 //            Thing2.setPosition(tgt);
 
-            if(gamepad2.x)
-            {
+            if (gamepad2.x) {
                 sideSlidePos += 100;
 
-            }
-            else if(gamepad2.b)
-            {
+            } else if (gamepad2.b) {
                 sideSlidePos -= 100;
             }
 
-            if(gamepad1.dpad_right)
-            {
+            if (gamepad1.dpad_right) {
                 Thing2.setPosition(0);
-            }
-            else if(gamepad1.dpad_left)
-            {
-                Thing2.setPosition(1);
+            } else if (gamepad1.dpad_left) {
+                Thing2.setPosition(0.8);
             }
 
 
-            sideSlide.setTargetPosition((int) sideSlidePos);
+            sideSlidePos = Math.max(Math.min(sideSlidePos, 0), -2100);
+            upSlidePos = Math.max(Math.min(upSlidePos, 0), -3000);
 
-            sideSlidePos = Math.min(Math.max(sideSlidePos, 0), 3000);
-            upSlidePos = Math.min(Math.max(upSlidePos, 0), 3000);
-
-            if(gamepad1.dpad_up)
-            {
+            if (gamepad1.dpad_up) {
                 upSlide.setTargetPosition(3000);
-            }
-            else if(gamepad1.dpad_down)
-            {
+            } else if (gamepad1.dpad_down) {
                 upSlide.setTargetPosition(150);
             }
 
+            sideSlide.setTargetPosition(sideSlidePos);
             sideSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            sideSlide.setPower(1);
 
+            while (upSlide.isBusy() && opModeIsActive()) {
+                idle();
+            }
         }
 
 
@@ -168,8 +147,6 @@ public class TeleOp_testV1 extends LinearOpMode {
         sideSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         upSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        sideSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        sideSlide.setDirection(DcMotorSimple.Direction.REVERSE);
         upSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         upSlide.setDirection(DcMotorSimple.Direction.FORWARD);
     }
