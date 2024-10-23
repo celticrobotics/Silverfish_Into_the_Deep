@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -23,8 +23,6 @@ public class TeleOp_testV1 extends LinearOpMode {
     DcMotor BR;
 
     DcMotor upSlide;
-    double tgt = 0;
-    double tgtslide;
 
     //Slides Pos Variables
     int sideSlidePos;
@@ -34,26 +32,18 @@ public class TeleOp_testV1 extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         //HardwareMap
-
-        Thing1 = hardwareMap.get(Servo.class, "Thing1");
-
-        Elbow = hardwareMap.get(Servo.class, "Elbow");
-
-        Thing2 = hardwareMap.get(Servo.class, "Thing2");
-
-        sideSlide = hardwareMap.get(DcMotor.class, "sideSlide");
-
-        upSlide = hardwareMap.get(DcMotor.class, "upSlide");
-
         FL = hardwareMap.get(DcMotor.class, "FL");
         FR = hardwareMap.get(DcMotor.class, "FR");
         BL = hardwareMap.get(DcMotor.class, "BL");
         BR = hardwareMap.get(DcMotor.class, "BR");
 
-        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Thing1 = hardwareMap.get(Servo.class, "Thing1");
+        Elbow = hardwareMap.get(Servo.class, "Elbow");
+        Thing2 = hardwareMap.get(Servo.class, "Thing2");
+
+        sideSlide = hardwareMap.get(DcMotor.class, "sideSlide");
+        upSlide = hardwareMap.get(DcMotor.class, "upSlide");
+
 
         //Declare motor position variables
 
@@ -70,9 +60,10 @@ public class TeleOp_testV1 extends LinearOpMode {
         sideSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         upSlide.setPower(1);
-        Thing2.setPosition(0);
+        upSlide.setTargetPosition(250);
+        Thing2.setPosition(0.17);
         sideSlide.setTargetPosition(0);
-        upSlide.setTargetPosition(150);
+
 
         while(opModeIsActive()) {
             Move();
@@ -83,15 +74,15 @@ public class TeleOp_testV1 extends LinearOpMode {
             if (gamepad1.a) {
                 Thing1.setPosition(0);
             } else if (gamepad1.y) {
-                Thing1.setPosition(1);
+                Thing1.setPosition(0.8);
             } else {
                 Thing1.setPosition(0.5);
             }
             if (gamepad1.x) {
-                Elbow.setPosition(0.9);
+                Elbow.setPosition(0.95);
 
             } else if (gamepad1.b) {
-                Elbow.setPosition(0.24);
+                Elbow.setPosition(0.3);
             }
 
 
@@ -114,19 +105,19 @@ public class TeleOp_testV1 extends LinearOpMode {
             }
 
             if (gamepad1.dpad_right) {
-                Thing2.setPosition(0);
+                Thing2.setPosition(0.17);
             } else if (gamepad1.dpad_left) {
-                Thing2.setPosition(0.8);
+                Thing2.setPosition(1);
             }
 
 
             sideSlidePos = Math.max(Math.min(sideSlidePos, 0), -2100);
-            upSlidePos = Math.max(Math.min(upSlidePos, 0), -3000);
+            upSlidePos = Math.max(Math.min(upSlidePos, 0), -3150);
 
             if (gamepad1.dpad_up) {
-                upSlide.setTargetPosition(3000);
+                upSlide.setTargetPosition(3150);
             } else if (gamepad1.dpad_down) {
-                upSlide.setTargetPosition(150);
+                upSlide.setTargetPosition(250);
             }
 
             sideSlide.setTargetPosition(sideSlidePos);
@@ -144,6 +135,11 @@ public class TeleOp_testV1 extends LinearOpMode {
 
     public void Motor_Config()
     {
+        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         sideSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         upSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 

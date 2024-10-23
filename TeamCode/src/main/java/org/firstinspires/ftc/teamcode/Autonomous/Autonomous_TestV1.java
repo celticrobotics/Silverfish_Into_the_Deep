@@ -1,14 +1,13 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Autonomous;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.RobotLog;
-
-import org.firstinspires.ftc.teamcode.encoders.encoders;
 
 @Autonomous(name = "Auto test")
 public class Autonomous_TestV1 extends LinearOpMode {
@@ -30,6 +29,11 @@ public class Autonomous_TestV1 extends LinearOpMode {
     private DcMotor rightBack;
 
     DcMotor sideSlide;
+    DcMotor upSlide;
+
+    Servo Thing1;
+    Servo Elbow;
+    Servo Thing2;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -44,7 +48,6 @@ public class Autonomous_TestV1 extends LinearOpMode {
     public void runOpMode() {
         setup();
 
-
         telemetry.addData("Status", "Initialized");
         telemetry.addData("EncoderLeft: ", String.valueOf(leftFront.getCurrentPosition()), "Encoder Right: ", rightFront.getCurrentPosition());
         telemetry.update();
@@ -57,12 +60,22 @@ public class Autonomous_TestV1 extends LinearOpMode {
         turn(0.2, 5, 1.0);
         strafe(0.2, 5, 1.0);
 
-        bring_block_into_up_bucket();
+        Thing2.setPosition(0.17);
+        score_pre_load();
+        sideSlide.setTargetPosition(0);
+
+
+//        while(!leftBack.isBusy())
+//        {
+//            score_pre_load();
+//        }
 
         while (opModeIsActive()){
 
             telemetry.addData("Status", "Running");
             telemetry.update();
+
+
         }
     }
 
@@ -144,6 +157,13 @@ public class Autonomous_TestV1 extends LinearOpMode {
         leftBack = hardwareMap.get(DcMotor.class, "BL");
         rightBack = hardwareMap.get(DcMotor.class, "BR");
 
+        sideSlide = hardwareMap.get(DcMotor.class, "sideSlide");
+        upSlide = hardwareMap.get(DcMotor.class, "upSlide");
+
+        Thing1 = hardwareMap.get(Servo.class, "Thing1");
+        Elbow = hardwareMap.get(Servo.class, "Elbow");
+        Thing2 = hardwareMap.get(Servo.class, "Thing2");
+
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         leftBack.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
@@ -164,8 +184,17 @@ public class Autonomous_TestV1 extends LinearOpMode {
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        sideSlide = hardwareMap.get(DcMotor.class, "sideSlide");
         sideSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        upSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        upSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        sideSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        upSlide.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        upSlide.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        upSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        sideSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     void bring_block_into_up_bucket() {
@@ -179,5 +208,13 @@ public class Autonomous_TestV1 extends LinearOpMode {
         while (sideSlide.isBusy() && opModeIsActive()) {
             idle();
         }
+    }
+
+    void score_pre_load(){
+
+        upSlide.setTargetPosition(-2100);
+        upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        upSlide.setPower(1);
+
     }
 }
