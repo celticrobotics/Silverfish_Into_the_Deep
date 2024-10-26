@@ -54,27 +54,24 @@ public class Autonomous_TestV1 extends LinearOpMode {
 
         waitForStart();
 
-        fwd(power, 8.0, 1.0);
-        fwd(0.3, 3.0, 2.0);
-        fwd(1.0, 4.0, 4.0);
-        turn(0.2, 5, 1.0);
-        strafe(0.2, 5, 1.0);
-
         Thing2.setPosition(0.17);
-        score_pre_load();
         sideSlide.setTargetPosition(0);
+        upSlide.setTargetPosition(250);
+
+        fwd(0.5, 7, 2);
+        turn(0.5, 55, 1);
+        strafe(0.5, -5, 2);
+        raise_Slides();
+        fwd(0.5, -10,2);
+        Thing2.setPosition(1);
 
 
-//        while(!leftBack.isBusy())
-//        {
-//            score_pre_load();
-//        }
-
-        while (opModeIsActive()){
+        while (opModeIsActive()) {
 
             telemetry.addData("Status", "Running");
+            telemetry.addData("Left Pos", leftFront.getCurrentPosition());
+            telemetry.addData("Right Pos", rightFront.getCurrentPosition());
             telemetry.update();
-
 
         }
     }
@@ -86,10 +83,10 @@ public class Autonomous_TestV1 extends LinearOpMode {
         int leftFrontT;
         int rightFrontT;
 
-        leftFrontT = leftFront.getCurrentPosition() + (int)(distance[0] * COUNTS_PER_CM);
-        rightFrontT = rightFront.getCurrentPosition() + (int)(distance[1] * COUNTS_PER_CM);
-        leftBackT = leftBack.getCurrentPosition() + (int)(distance[2] * COUNTS_PER_CM);
-        rightBackT = rightBack.getCurrentPosition() + (int)(distance[3] * COUNTS_PER_CM);
+        leftFrontT = leftFront.getCurrentPosition() + (int) (distance[0] * COUNTS_PER_CM);
+        rightFrontT = rightFront.getCurrentPosition() + (int) (distance[1] * COUNTS_PER_CM);
+        leftBackT = leftBack.getCurrentPosition() + (int) (distance[2] * COUNTS_PER_CM);
+        rightBackT = rightBack.getCurrentPosition() + (int) (distance[3] * COUNTS_PER_CM);
 
         leftBack.setTargetPosition(leftBackT);
         rightBack.setTargetPosition(rightBackT);
@@ -109,19 +106,19 @@ public class Autonomous_TestV1 extends LinearOpMode {
         rightFront.setPower(Math.abs(speed));
 
 
-            while (opModeIsActive() && (leftFront.isBusy() || rightFront.isBusy()) && (runtime.seconds() < timeout)){
+        while (opModeIsActive() && (leftFront.isBusy() || rightFront.isBusy()) && (runtime.seconds() < timeout)) {
 
 //                telemetry.addData("LeftDrive ", (leftFront.getCurrentPosition() / CIRCUMFERENCE_CM));
 //                telemetry.addData("RightDrive ", (rightFront.getCurrentPosition() / CIRCUMFERENCE_CM));
 
-                telemetry.addData("LeftDrive ", leftFront.getCurrentPosition());
-                telemetry.addData("RightDrive ", rightFront.getCurrentPosition());
-                telemetry.addData("LeftDrive Target Pos", leftFrontT);
-                telemetry.addData("RightDrive Target Pos", rightFrontT);
+            telemetry.addData("LeftDrive ", leftFront.getCurrentPosition());
+            telemetry.addData("RightDrive ", rightFront.getCurrentPosition());
+            telemetry.addData("LeftDrive Target Pos", leftFrontT);
+            telemetry.addData("RightDrive Target Pos", rightFrontT);
 
-                telemetry.update();
+            telemetry.update();
 
-            }
+        }
 
 
         leftBack.setPower(0);
@@ -129,26 +126,28 @@ public class Autonomous_TestV1 extends LinearOpMode {
         leftFront.setPower(0);
         rightFront.setPower(0);
 
-            leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
-            sleep(50);
+        sleep(50);
 
-        }
+    }
 
     private void fwd(double speed, double distance, double timeout) {
         move(speed, new double[]{distance, distance, distance, distance}, timeout);
     }
 
-    private void turn(double speed, double deg, double timeout) {
-        move(speed, new double[]{-deg, deg, -deg, deg}, timeout);
+    private void turn(double speed, double dgr, double timeout) {
+        final double real_degrees_idk_bruh_dont_ask_me_skibidi = dgr / -6.42857142857; //360/56 --> (7 dgr = 45 degree) * 8 to reach 360
+
+        move(speed, new double[]{-real_degrees_idk_bruh_dont_ask_me_skibidi, real_degrees_idk_bruh_dont_ask_me_skibidi, -real_degrees_idk_bruh_dont_ask_me_skibidi, real_degrees_idk_bruh_dont_ask_me_skibidi}, timeout);
     }
 
     private void strafe(double speed, double distance, double timeout) {
-        move(speed, new double[]{-distance, distance, distance, -distance}, timeout);
+        move(speed, new double[]{distance, -distance, -distance, distance}, timeout);
     }
 
     private void setup() {
@@ -189,32 +188,43 @@ public class Autonomous_TestV1 extends LinearOpMode {
 
         upSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         sideSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        upSlide.setDirection(DcMotorSimple.Direction.FORWARD);
 
         upSlide.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        upSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        sideSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     void bring_block_into_up_bucket() {
-        RobotLog.a(String.copyValueOf(new char[]{104, 101, 108, 108, 111}));
+        RobotLog.i(String.copyValueOf(new char[]{104, 101, 108, 108, 111}));
 
         // bring side slide into robot
-        sideSlide.setTargetPosition(-2100);
-        sideSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sideSlide.setPower(1);
+//        sideSlide.setTargetPosition(-2100);
+//        sideSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        sideSlide.setPower(1);
+
+        Thing1.setPosition(1);
+
 
         while (sideSlide.isBusy() && opModeIsActive()) {
             idle();
         }
     }
 
-    void score_pre_load(){
-
-        upSlide.setTargetPosition(-2100);
+    void raise_Slides() {
+        upSlide.setTargetPosition(3000);
         upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         upSlide.setPower(1);
 
+        while (upSlide.isBusy() && opModeIsActive()) {
+            idle();
+        }
+
+
     }
+
+//    void intake(double timeout) {
+//        while(timeout Thing1.setPosition(0);
+//
+//        while (upSlide.isBusy() && opModeIsActive()) {
+//            idle();
+//        }
+//    }
 }

@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.teamcode.Sensor;
 
 @TeleOp(name = "TeleOp Test V1")
 public class TeleOp_testV1 extends LinearOpMode {
@@ -21,6 +24,7 @@ public class TeleOp_testV1 extends LinearOpMode {
     DcMotor BL;
     DcMotor FR;
     DcMotor BR;
+    RevColorSensorV3 CS;
 
     DcMotor upSlide;
 
@@ -28,10 +32,13 @@ public class TeleOp_testV1 extends LinearOpMode {
     int sideSlidePos;
     double upSlidePos;
 
+
     @Override
     public void runOpMode() throws InterruptedException {
 
         //HardwareMap
+        CS = hardwareMap.get(RevColorSensorV3.class, "CS");
+        final Sensor idkman = new Sensor(CS, telemetry);
         FL = hardwareMap.get(DcMotor.class, "FL");
         FR = hardwareMap.get(DcMotor.class, "FR");
         BL = hardwareMap.get(DcMotor.class, "BL");
@@ -59,10 +66,16 @@ public class TeleOp_testV1 extends LinearOpMode {
 
         sideSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        //Run to bucket and drop sample
         upSlide.setPower(1);
         upSlide.setTargetPosition(250);
         Thing2.setPosition(0.17);
         sideSlide.setTargetPosition(0);
+        upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+
 
 
         while(opModeIsActive()) {
@@ -85,12 +98,28 @@ public class TeleOp_testV1 extends LinearOpMode {
                 Elbow.setPosition(0.3);
             }
 
+            switch (idkman.get_detected_color()) {
+                case RED:
+                    Thing1.setPosition(1);
+                    break;
+                case BLUE:
+                    Thing1.setPosition(0);
+                    break;
+                case YELLOW:
+                     break;
+                case MOIST_CYAN:
+
+                default:
+
+            }
 
             telemetry.addData("Elbow", Elbow.getPosition());
             telemetry.addData("Thing1", Thing1.getPosition());
             telemetry.addData("Thing2", Thing2.getPosition());
             telemetry.addData("SideSlide", sideSlidePos);
             telemetry.addData("UpSlide", upSlidePos);
+            telemetry.addData("colour", idkman.get_detected_color());
+            telemetry.update();
             telemetry.update();
 
             //Servo Test code
@@ -102,6 +131,17 @@ public class TeleOp_testV1 extends LinearOpMode {
 
             } else if (gamepad2.b) {
                 sideSlidePos -= 100;
+            }
+
+            //Slides work for low level
+
+            if(gamepad2.y){
+                upSlide.setTargetPosition(1500);
+                upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            } else if(gamepad2.a)
+            {
+                upSlide.setTargetPosition(0);
+                upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
 
             if (gamepad1.dpad_right) {
