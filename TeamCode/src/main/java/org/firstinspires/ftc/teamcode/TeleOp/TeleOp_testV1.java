@@ -9,6 +9,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Sensor;
 
+// Fully functional
+// Each button controls all individual usages
+// Colour Sensor integration
+
 @TeleOp(name = "TeleOp Test V1")
 public class TeleOp_testV1 extends LinearOpMode {
 
