@@ -91,7 +91,7 @@ public class TeleOp_testV1 extends LinearOpMode {
             if (gamepad1.a) {
                 Thing1.setPosition(0);
             } else if (gamepad1.y) {
-                Thing1.setPosition(0.8);
+                Thing1.setPosition(1);
             } else {
                 Thing1.setPosition(0.5);
             }
@@ -102,20 +102,20 @@ public class TeleOp_testV1 extends LinearOpMode {
                 Elbow.setPosition(0.3);
             }
 
-            switch (idkman.get_detected_color()) {
-                case RED:
-                    Thing1.setPosition(1);
-                    break;
-                case BLUE:
-                    Thing1.setPosition(0);
-                    break;
-                case YELLOW:
-                     break;
-                case MOIST_CYAN:
-
-                default:
-
-            }
+//            switch (idkman.get_detected_color()) {
+//                case RED:
+//                    Thing1.setPosition(1);
+//                    break;
+//                case BLUE:
+//                    Thing1.setPosition(0);
+//                    break;
+//                case YELLOW:
+//                     break;
+//                case MOIST_CYAN:
+//
+//                default:
+//
+//            }
 
             telemetry.addData("Elbow", Elbow.getPosition());
             telemetry.addData("Thing1", Thing1.getPosition());

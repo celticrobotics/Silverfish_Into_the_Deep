@@ -145,7 +145,6 @@ public class TeleOpTestV2 extends LinearOpMode {
                 sideSlidePos -= 100;
             }
 
-            Ult_Intake();
 
             //Slides work for low level
 
