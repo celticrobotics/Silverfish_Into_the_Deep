@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import java.util.function.Supplier;
@@ -15,10 +13,6 @@ public class encoders {
         FR = map.get(DcMotorEx.class, "FR");
         BL = map.get(DcMotorEx.class, "BL");
         BR = map.get(DcMotorEx.class, "BR");
-
-        Thing1 = map.get(Servo.class, "Thing1");
-        Elbow = map.get(Servo.class, "Elbow");
-        Thing2 = map.get(Servo.class, "Thing2");
 
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -55,38 +49,8 @@ public class encoders {
         }
     }
 
-    public enum ServoPosition{INTAKE, OUTTAKE}
-
-
-    /**
-     * Intake method, intake or outtake for Thing1,
-     * @param timeoutS Run for timeout seconds
-     * @param Pos Run to intake or outtake
-     */
-    public void Intake(int timeoutS, ServoPosition Pos)
-    {
-        double ServoPos;
-        switch(Pos){
-            case INTAKE: ServoPos = 0;
-            break;
-            case OUTTAKE: ServoPos = 1;
-            break;
-            default: throw new RuntimeException("idiot, fix Intake Position in method");
-        }
-        ElapsedTime runtime = new ElapsedTime();
-
-
-        while(runtime.seconds() <= timeoutS)
-        {
-            idle.run();
-            Thing1.setPosition(ServoPos);
-        }
-
-    }
-
     int fl_pos = 0, fr_pos = 0, bl_pos = 0, br_pos = 0;
     DcMotorEx FL, FR, BL, BR;
-    Servo Thing1, Elbow, Thing2;
     Supplier<Boolean> active;
     Runnable idle;
 }

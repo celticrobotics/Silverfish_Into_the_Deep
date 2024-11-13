@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.RobotLog;
 
-@Autonomous(name = "Auto Left nigga")
-public class Auto_Left extends LinearOpMode {
+@Autonomous(name = "Auto test")
+public class Autonomous_TestV1 extends LinearOpMode {
 //    @Override public void runOpMode() {
 //        encoders enc = new encoders(hardwareMap, () -> {
 //            telemetry.addLine("something is hapeong idk");
