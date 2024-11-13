@@ -9,8 +9,18 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.RobotLog;
 
-@Autonomous(name = "Auto Right")
-public class Auto_Right extends LinearOpMode {
+@Autonomous(name = "Auto Right Red")
+public class Autonomous_rightRed extends LinearOpMode {
+//    @Override public void runOpMode() {
+//        encoders enc = new encoders(hardwareMap, () -> {
+//            telemetry.addLine("something is hapeong idk");
+//            telemetry.update();
+//            return opModeIsActive(); }, this::idle);
+//
+//        waitForStart();
+//
+//        enc.move(2000, 2000, 2000, 2000, 0.6);
+//    }
 
     private DcMotor leftFront;
     private DcMotor rightFront;
@@ -37,11 +47,6 @@ public class Auto_Right extends LinearOpMode {
     public void runOpMode() {
         setup();
 
-        //Passing in a function to a function
-        //Import the idle function into this class
-        //
-        encoders RunToPos = new encoders(hardwareMap, this::opModeIsActive, this::idle);
-
         telemetry.addData("Status", "Initialized");
         telemetry.addData("EncoderLeft: ", String.valueOf(leftFront.getCurrentPosition()), "Encoder Right: ", rightFront.getCurrentPosition());
         telemetry.update();
@@ -52,15 +57,13 @@ public class Auto_Right extends LinearOpMode {
         sideSlide.setTargetPosition(0);
         upSlide.setTargetPosition(250);
 
-        RunToPos.Intake(5, encoders.ServoPosition.INTAKE);
-
-//        fwd(0.5, 20, 2);
-//        strafe(0.5, -70, 5);
-//        turn(0.5, 55, 2);
-//        fwd(0.5, -20, 2);
-//        raise_Slides();
-//        fwd(0.5, -5,2);
-//        Thing2.setPosition(1);
+        fwd(0.5, 20, 2);
+        strafe(0.5, -70, 5);
+        turn(0.5, 55, 2);
+        fwd(0.5, -20, 2);
+        raise_Slides();
+        fwd(0.5, -5,2);
+        Thing2.setPosition(1);
 
 
         while (opModeIsActive()) {
@@ -216,7 +219,6 @@ public class Auto_Right extends LinearOpMode {
 
 
     }
-
 
 //    void intake(double timeout) {
 //        while(timeout Thing1.setPosition(0);
