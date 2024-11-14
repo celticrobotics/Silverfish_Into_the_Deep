@@ -29,7 +29,7 @@ public class TeleOp_NewIntake extends LinearOpMode {
     DcMotor BL;
     DcMotor FR;
     DcMotor BR;
-    RevColorSensorV3 CS;
+//    RevColorSensorV3 CS;
 
     DcMotor upSlide;
 
@@ -42,8 +42,8 @@ public class TeleOp_NewIntake extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         //HardwareMap
-        CS = hardwareMap.get(RevColorSensorV3.class, "CS");
-        final Sensor idkman = new Sensor(CS, telemetry);
+//        CS = hardwareMap.get(RevColorSensorV3.class, "CS");
+//        final Sensor idkman = new Sensor(CS, telemetry);
         FL = hardwareMap.get(DcMotor.class, "FL");
         FR = hardwareMap.get(DcMotor.class, "FR");
         BL = hardwareMap.get(DcMotor.class, "BL");
@@ -131,7 +131,7 @@ public class TeleOp_NewIntake extends LinearOpMode {
             telemetry.addData("Thing2", Thing2.getPosition());
             telemetry.addData("SideSlide", sideSlidePos);
             telemetry.addData("UpSlide", upSlidePos);
-            telemetry.addData("colour", idkman.get_detected_color());
+//            telemetry.addData("colour", idkman.get_detected_color());
             telemetry.update();
             telemetry.update();
 
