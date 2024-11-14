@@ -84,10 +84,8 @@ public class TeleOp_NewIntake extends LinearOpMode {
         int ninja = 0;
 
 
-
-        while(opModeIsActive()) {
+        while (opModeIsActive()) {
             Move();
-
 
 
             //Thing1 and Elbow Button Control
@@ -124,10 +122,7 @@ public class TeleOp_NewIntake extends LinearOpMode {
 //
 //            }
 
-            telemetry.addLine(String.format("%d", ++ninja));
-            telemetry.update();
-
-
+            telemetry.addData("Count (dont use this)", ++ninja);
             telemetry.addData("Elbow", Elbow.getPosition());
             telemetry.addData("Thing1_1", Thing1_1.getPosition());
             telemetry.addData("Thing1_2", Thing1_2.getPosition());
@@ -135,11 +130,7 @@ public class TeleOp_NewIntake extends LinearOpMode {
             telemetry.addData("SideSlide", sideSlidePos);
             telemetry.addData("UpSlide", upSlidePos);
 //            telemetry.addData("colour", idkman.get_detected_color());
-//            telemetry.update();
-
-            //Servo Test code
-//            tgt = -this.gamepad1.left_stick_y;
-//            Thing2.setPosition(tgt);
+            telemetry.update();
 
             if (gamepad2.x) {
                 sideSlidePos += 100;
@@ -148,46 +139,41 @@ public class TeleOp_NewIntake extends LinearOpMode {
                 sideSlidePos -= 100;
             }
 
-            //Slides work for low level
-
-            if(gamepad2.y){
+//            //Slides work for low level
+//
+            if (gamepad2.y) {
                 upSlide.setTargetPosition(1500);
                 upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            } else if(gamepad2.a)
-            {
+            } else if (gamepad2.a) {
                 upSlide.setTargetPosition(0);
                 upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
 
+            // evil floating bit hack
             if (gamepad1.dpad_right) {
-                Thing2.setPosition(0.17);
-            } else if (gamepad1.dpad_left) {
-                Thing2.setPosition(1);
-            }
+//                Thing2.setPosition(0.17);
+//            } else if (gamepad1.dpad_left) {
+//                Thing2.setPosition(1);
+//            }
 
 
-            sideSlidePos = Math.max(Math.min(sideSlidePos, 0), -2100);
-            upSlidePos = Math.max(Math.min(upSlidePos, 0), -3150);
+                sideSlidePos = Math.max(Math.min(sideSlidePos, 0), -2100);
+                upSlidePos = Math.max(Math.min(upSlidePos, 0), -3150);
 
-            if (gamepad1.dpad_up) {
-                upSlide.setTargetPosition(3150);
-            } else if (gamepad1.dpad_down) {
-                upSlide.setTargetPosition(250);
-            }
+                // evil floating bit hack
+//            if (gamepad1.dpad_up) {
+//                upSlide.setTargetPosition(3150);
+//            } else if (gamepad1.dpad_down) {
+//                upSlide.setTargetPosition(250);
+//            }
 
-            sideSlide.setTargetPosition(sideSlidePos);
-            sideSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            sideSlide.setPower(1);
-
-            while (upSlide.isBusy() && opModeIsActive()) {
-                idle();
+                sideSlide.setTargetPosition(sideSlidePos);
+                sideSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                sideSlide.setPower(1);
             }
         }
-
-
     }
-
     public void Motor_Config()
     {
         FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
