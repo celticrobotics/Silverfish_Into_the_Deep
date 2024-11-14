@@ -16,7 +16,8 @@ import org.firstinspires.ftc.teamcode.Sensor;
 @TeleOp(name = "New Intake TeleOp")
 public class TeleOp_NewIntake extends LinearOpMode {
 
-    Servo Thing1;
+    Servo Thing1_1;
+    Servo Thing1_2;
 
     Servo Elbow;
 
@@ -48,7 +49,11 @@ public class TeleOp_NewIntake extends LinearOpMode {
         BL = hardwareMap.get(DcMotor.class, "BL");
         BR = hardwareMap.get(DcMotor.class, "BR");
 
-        Thing1 = hardwareMap.get(Servo.class, "Thing1");
+        //FIX HARDWAREMAP
+
+        Thing1_1 = hardwareMap.get(Servo.class, "Thing1_1");
+        Thing1_2 = hardwareMap.get(Servo.class, "Thing1_2");
+
         Elbow = hardwareMap.get(Servo.class, "Elbow");
         Thing2 = hardwareMap.get(Servo.class, "Thing2");
 
@@ -89,11 +94,14 @@ public class TeleOp_NewIntake extends LinearOpMode {
             //Thing1 and Elbow Button Control
 
             if (gamepad1.a) {
-                Thing1.setPosition(0);
+                Thing1_1.setPosition(0);
+                Thing1_2.setPosition(1);
             } else if (gamepad1.y) {
-                Thing1.setPosition(1);
+                Thing1_1.setPosition(1);
+                Thing1_2.setPosition(0);
             } else {
-                Thing1.setPosition(0.5);
+                Thing1_1.setPosition(0.5);
+                Thing1_2.setPosition(0.5);
             }
             if (gamepad1.x) {
                 Elbow.setPosition(0.95);
@@ -118,7 +126,8 @@ public class TeleOp_NewIntake extends LinearOpMode {
 //            }
 
             telemetry.addData("Elbow", Elbow.getPosition());
-            telemetry.addData("Thing1", Thing1.getPosition());
+            telemetry.addData("Thing1_1", Thing1_1.getPosition());
+            telemetry.addData("Thing1_2", Thing1_2.getPosition());
             telemetry.addData("Thing2", Thing2.getPosition());
             telemetry.addData("SideSlide", sideSlidePos);
             telemetry.addData("UpSlide", upSlidePos);

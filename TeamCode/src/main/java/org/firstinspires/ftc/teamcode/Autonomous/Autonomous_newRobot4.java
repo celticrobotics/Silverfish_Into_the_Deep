@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@Autonomous(name = "Blue NZ Parking")
-public class Autonomous_newRobot2 extends LinearOpMode {
+@Autonomous(name = "Blue NZ level 4")
+public class Autonomous_newRobot4 extends LinearOpMode {
     DcMotor linearSlide;
     DcMotor frontLeft;
     DcMotor frontRight;
@@ -45,14 +45,7 @@ public class Autonomous_newRobot2 extends LinearOpMode {
 
         waitForStart();
 
-        // Rotate right 90 degrees
-        drive(false, true, false, true, 0.8, 1075);
 
-        // Drive straight
-        drive(false, false, false, false, 0.8, 1075);
-
-        // Strafe left
-        drive(true, false, false, true, 0.8, 2050);
 
         frontLeft.setPower(0);
         frontRight.setPower(0);
@@ -146,4 +139,5 @@ public class Autonomous_newRobot2 extends LinearOpMode {
         }
     }
 }
+
 

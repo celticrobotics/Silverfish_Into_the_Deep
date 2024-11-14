@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@Autonomous(name = "Blue NZ level1")
+@Autonomous(name = "Blue NZ level 1")
 public class Autonomous_newRobot extends LinearOpMode {
     DcMotor linearSlide;
     DcMotor frontLeft;
@@ -36,6 +36,9 @@ public class Autonomous_newRobot extends LinearOpMode {
         backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         telemetry.addLine("Press start");
         telemetry.update();
@@ -126,6 +129,22 @@ public class Autonomous_newRobot extends LinearOpMode {
                 backRight.setPower(power);
             }
 
+        }
+
+        if (reverseFrontLeft){
+            frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        }
+
+        if (reverseFrontRight){
+            frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        }
+
+        if (reverseBackLeft){
+            backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        }
+
+        if (reverseBackRight){
+            backRight.setDirection(DcMotorSimple.Direction.REVERSE);
         }
     }
 }
