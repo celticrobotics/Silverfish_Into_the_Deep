@@ -73,6 +73,9 @@ public class Autonomous_newRobot1 extends LinearOpMode {
 
         // Optional: Place specimen in basket
         // moveSlide(500, 0.5);
+
+        telemetry.addLine("Job Done!");
+        telemetry.update();
     }
 
     // A method to move the linear slide.

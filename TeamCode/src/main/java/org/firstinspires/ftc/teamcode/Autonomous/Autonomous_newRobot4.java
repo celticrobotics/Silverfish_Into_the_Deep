@@ -45,12 +45,15 @@ public class Autonomous_newRobot4 extends LinearOpMode {
 
         waitForStart();
 
-
+        // Put drive stuff here
 
         frontLeft.setPower(0);
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(0);
+
+        telemetry.addLine("Job Done!");
+        telemetry.update();
 
     }
 

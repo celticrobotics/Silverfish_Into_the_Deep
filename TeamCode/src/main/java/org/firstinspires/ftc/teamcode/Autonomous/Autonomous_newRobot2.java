@@ -59,6 +59,9 @@ public class Autonomous_newRobot2 extends LinearOpMode {
         backLeft.setPower(0);
         backRight.setPower(0);
 
+        telemetry.addLine("Job Done!");
+        telemetry.update();
+
     }
 
     // A method to move the linear slide.
