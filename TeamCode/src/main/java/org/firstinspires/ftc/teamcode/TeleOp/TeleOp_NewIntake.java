@@ -49,8 +49,6 @@ public class TeleOp_NewIntake extends LinearOpMode {
         BL = hardwareMap.get(DcMotor.class, "BL");
         BR = hardwareMap.get(DcMotor.class, "BR");
 
-        //FIX HARDWAREMAP
-
         Thing1_1 = hardwareMap.get(Servo.class, "Thing1_1");
         Thing1_2 = hardwareMap.get(Servo.class, "Thing1_2");
 
@@ -83,12 +81,13 @@ public class TeleOp_NewIntake extends LinearOpMode {
         upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
-
+        int ninja = 0;
 
 
 
         while(opModeIsActive()) {
             Move();
+
 
 
             //Thing1 and Elbow Button Control
@@ -120,10 +119,14 @@ public class TeleOp_NewIntake extends LinearOpMode {
 //                case YELLOW:
 //                     break;
 //                case MOIST_CYAN:
-//
+///
 //                default:
 //
 //            }
+
+            telemetry.addLine(String.format("%d", ++ninja));
+            telemetry.update();
+
 
             telemetry.addData("Elbow", Elbow.getPosition());
             telemetry.addData("Thing1_1", Thing1_1.getPosition());
@@ -132,8 +135,7 @@ public class TeleOp_NewIntake extends LinearOpMode {
             telemetry.addData("SideSlide", sideSlidePos);
             telemetry.addData("UpSlide", upSlidePos);
 //            telemetry.addData("colour", idkman.get_detected_color());
-            telemetry.update();
-            telemetry.update();
+//            telemetry.update();
 
             //Servo Test code
 //            tgt = -this.gamepad1.left_stick_y;

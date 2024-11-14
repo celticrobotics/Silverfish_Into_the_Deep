@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.Sensor;
 @TeleOp(name = "TeleOp Test V1")
 public class TeleOp_testV1 extends LinearOpMode {
 
-    Servo Thing1;
+    Servo Thing1_1;
 
     Servo Elbow;
 
@@ -28,7 +28,7 @@ public class TeleOp_testV1 extends LinearOpMode {
     DcMotor BL;
     DcMotor FR;
     DcMotor BR;
-    RevColorSensorV3 CS;
+    //RevColorSensorV3 CS;
 
     DcMotor upSlide;
 
@@ -41,14 +41,14 @@ public class TeleOp_testV1 extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         //HardwareMap
-        CS = hardwareMap.get(RevColorSensorV3.class, "CS");
-        final Sensor idkman = new Sensor(CS, telemetry);
+        //CS = hardwareMap.get(RevColorSensorV3.class, "CS");
+        //final Sensor idkman = new Sensor(CS, telemetry);
         FL = hardwareMap.get(DcMotor.class, "FL");
         FR = hardwareMap.get(DcMotor.class, "FR");
         BL = hardwareMap.get(DcMotor.class, "BL");
         BR = hardwareMap.get(DcMotor.class, "BR");
 
-        Thing1 = hardwareMap.get(Servo.class, "Thing1");
+        Thing1_1 = hardwareMap.get(Servo.class, "Thing1_1");
         Elbow = hardwareMap.get(Servo.class, "Elbow");
         Thing2 = hardwareMap.get(Servo.class, "Thing2");
 
@@ -89,11 +89,11 @@ public class TeleOp_testV1 extends LinearOpMode {
             //Thing1 and Elbow Button Control
 
             if (gamepad1.a) {
-                Thing1.setPosition(0);
+                Thing1_1.setPosition(0);
             } else if (gamepad1.y) {
-                Thing1.setPosition(1);
+                Thing1_1.setPosition(1);
             } else {
-                Thing1.setPosition(0.5);
+                Thing1_1.setPosition(0.5);
             }
             if (gamepad1.x) {
                 Elbow.setPosition(0.95);
@@ -118,11 +118,11 @@ public class TeleOp_testV1 extends LinearOpMode {
 //            }
 
             telemetry.addData("Elbow", Elbow.getPosition());
-            telemetry.addData("Thing1", Thing1.getPosition());
+            telemetry.addData("Thing1", Thing1_1.getPosition());
             telemetry.addData("Thing2", Thing2.getPosition());
             telemetry.addData("SideSlide", sideSlidePos);
             telemetry.addData("UpSlide", upSlidePos);
-            telemetry.addData("colour", idkman.get_detected_color());
+            // telemetry.addData("colour", idkman.get_detected_color());
             telemetry.update();
             telemetry.update();
 
