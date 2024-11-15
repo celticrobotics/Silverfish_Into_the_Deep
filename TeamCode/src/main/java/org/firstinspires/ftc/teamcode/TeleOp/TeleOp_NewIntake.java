@@ -81,15 +81,17 @@ public class TeleOp_NewIntake extends LinearOpMode {
         upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
-        int ninja = 0;
+        int ninja = 0; //Test Var
 
 
-        while (opModeIsActive()) {
+
+        while(opModeIsActive()) {
             Move();
 
+            sideSlidePos = Math.max(Math.min(sideSlidePos, 0), -2100);
+            upSlidePos = Math.max(Math.min(upSlidePos, 0), -3150);
 
             //Thing1 and Elbow Button Control
-
             if (gamepad1.a) {
                 Thing1_1.setPosition(0);
                 Thing1_2.setPosition(1);
@@ -101,11 +103,31 @@ public class TeleOp_NewIntake extends LinearOpMode {
                 Thing1_2.setPosition(0.5);
             }
             if (gamepad1.x) {
-                Elbow.setPosition(0.95);
+                Elbow.setPosition(0.6);
 
             } else if (gamepad1.b) {
                 Elbow.setPosition(0.3);
             }
+
+            if (gamepad2.x) {
+                sideSlidePos += 100;
+
+            } else if (gamepad2.b) {
+                sideSlidePos -= 100;
+            }
+
+            if(gamepad2.y){
+                upSlide.setTargetPosition(1500);
+                upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            } else if(gamepad2.a)
+            {
+                upSlide.setTargetPosition(0);
+                upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
+
+            sideSlide.setTargetPosition(sideSlidePos);
+            sideSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            sideSlide.setPower(1);
 
 //            switch (idkman.get_detected_color()) {
 //                case RED:
@@ -132,48 +154,31 @@ public class TeleOp_NewIntake extends LinearOpMode {
 //            telemetry.addData("colour", idkman.get_detected_color());
             telemetry.update();
 
-            if (gamepad2.x) {
-                sideSlidePos += 100;
 
-            } else if (gamepad2.b) {
-                sideSlidePos -= 100;
-            }
 
 //            //Slides work for low level
-//
-            if (gamepad2.y) {
-                upSlide.setTargetPosition(1500);
-                upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            } else if (gamepad2.a) {
-                upSlide.setTargetPosition(0);
-                upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
 
             // evil floating bit hack
             if (gamepad1.dpad_right) {
-//                Thing2.setPosition(0.17);
-//            } else if (gamepad1.dpad_left) {
-//                Thing2.setPosition(1);
-//            }
-
-
-                sideSlidePos = Math.max(Math.min(sideSlidePos, 0), -2100);
-                upSlidePos = Math.max(Math.min(upSlidePos, 0), -3150);
-
-                // evil floating bit hack
-//            if (gamepad1.dpad_up) {
-//                upSlide.setTargetPosition(3150);
-//            } else if (gamepad1.dpad_down) {
-//                upSlide.setTargetPosition(250);
-//            }
-
-                sideSlide.setTargetPosition(sideSlidePos);
-                sideSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                sideSlide.setPower(1);
+                Thing2.setPosition(0.17);
             }
+            else if (gamepad1.dpad_left) {
+                Thing2.setPosition(1);
+            }
+
+            // evil floating bit hack
+            if (gamepad1.dpad_up) {
+                upSlide.setTargetPosition(4000);
+            } else if (gamepad1.dpad_down) {
+                upSlide.setTargetPosition(250);
+            }
+
+            upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            upSlide.setPower(1);
+
         }
     }
+
     public void Motor_Config()
     {
         FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -185,7 +190,7 @@ public class TeleOp_NewIntake extends LinearOpMode {
         upSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         upSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        upSlide.setDirection(DcMotorSimple.Direction.FORWARD);
+        upSlide.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     private void Move() {
