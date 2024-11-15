@@ -45,7 +45,22 @@ public class Autonomous_newRobot4 extends LinearOpMode {
 
         waitForStart();
 
-        // Put drive stuff here
+        // Strafe right
+        drive(false, true,true, false, 0.8, 1075);
+
+        // Drive straight
+        drive(false, false, false, false, 0.8, 2050);
+
+        // Put specimen in pool
+
+        // Drive backward
+        drive(true, true, true, true, 0.8, 1075);
+
+        // Strafe left
+        drive(true, false, false, true, 0.8, 2050);
+
+        // Drive straight
+        drive(false, false, false, false, 0.8, 1075);
 
         frontLeft.setPower(0);
         frontRight.setPower(0);

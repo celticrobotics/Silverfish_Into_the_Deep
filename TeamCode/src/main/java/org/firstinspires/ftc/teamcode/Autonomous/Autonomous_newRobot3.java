@@ -51,6 +51,8 @@ public class Autonomous_newRobot3 extends LinearOpMode {
         // Drive straight
         drive(false, false, false, false, 0.8, 2050);
 
+        // Place specimen in pool
+
         frontLeft.setPower(0);
         frontRight.setPower(0);
         backLeft.setPower(0);

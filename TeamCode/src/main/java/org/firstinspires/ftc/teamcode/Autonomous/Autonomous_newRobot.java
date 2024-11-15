@@ -45,19 +45,19 @@ public class Autonomous_newRobot extends LinearOpMode {
 
         waitForStart();
 
-        // Rotate left 90 degress
+        // Rotate left 90 degrees
         drive(true, false, true, false, 0.8, 1075);
 
         // Drive Straight
         drive(false, false, false, false, 0.8, 1075);
 
+        // Optional: Place specimen in basket
+        // moveSlide(500, 0.5);
+
         frontLeft.setPower(0);
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(0);
-
-        // Optional: Place specimen in basket
-        // moveSlide(500, 0.5);
 
         telemetry.addLine("Job Done!");
         telemetry.update();

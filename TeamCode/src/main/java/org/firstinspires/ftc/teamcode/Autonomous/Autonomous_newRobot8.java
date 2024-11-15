@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@Autonomous(name = "Blue NZ level 2")
-public class Autonomous_newRobot1 extends LinearOpMode {
+@Autonomous(name = "Blue OZ level 2")
+public class Autonomous_newRobot8 extends LinearOpMode {
     DcMotor linearSlide;
     DcMotor frontLeft;
     DcMotor frontRight;
@@ -43,31 +43,26 @@ public class Autonomous_newRobot1 extends LinearOpMode {
         telemetry.addLine("Press start");
         telemetry.update();
 
-
         waitForStart();
 
-        // Rotate left 90 degrees
-        drive(true, false, true, false, 0.8, 1075);
+        // Strafe left
+        drive(true, false, false, true, 0.8, 2050);
 
         // Drive straight
         drive(false, false, false, false, 0.8, 1075);
 
-        // Rotate right 90 degrees
-        drive(false, true, false, true, 0.8, 1075);
+        // Score specimen
 
-        // Drive Straight
-        drive(false, false, false, false, 0.8, 1075);
+        // Drive backward
+        drive(true, true, true, true, 0.8, 1000);
 
-        // Supposed to collect a specimen here!!
+        // Strafe right
+        drive(false, true,true, false, 0.8, 1075);
 
-        // Rotate left 180 degrees
-        drive(true, false, true, false, 0.8, 2150);
+        // Drive forward
+        drive(false, false, false, false, 0.8, 1000);
 
-        // Drive Straight
-        drive(false, false,false, false, 0.8, 1075);
-
-        // Optional: Place specimen in basket
-        // moveSlide(500, 0.5);
+        // Pick up specimen here
 
         frontLeft.setPower(0);
         frontRight.setPower(0);
@@ -76,6 +71,7 @@ public class Autonomous_newRobot1 extends LinearOpMode {
 
         telemetry.addLine("Job Done!");
         telemetry.update();
+
     }
 
     // A method to move the linear slide.
@@ -163,3 +159,4 @@ public class Autonomous_newRobot1 extends LinearOpMode {
         }
     }
 }
+
