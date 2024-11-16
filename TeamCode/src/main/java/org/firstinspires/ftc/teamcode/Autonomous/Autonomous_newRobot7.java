@@ -37,8 +37,8 @@ public class Autonomous_newRobot7 extends LinearOpMode {
         backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         telemetry.addLine("Press start");
         telemetry.update();
@@ -54,11 +54,6 @@ public class Autonomous_newRobot7 extends LinearOpMode {
         brake();
 
         // Score specimen
-
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
 
         telemetry.addLine("Job Done!");
         telemetry.update();

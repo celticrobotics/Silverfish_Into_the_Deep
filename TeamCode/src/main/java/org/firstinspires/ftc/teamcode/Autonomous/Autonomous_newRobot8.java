@@ -37,8 +37,8 @@ public class Autonomous_newRobot8 extends LinearOpMode {
         backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         telemetry.addLine("Press start");
         telemetry.update();

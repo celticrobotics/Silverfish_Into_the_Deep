@@ -37,8 +37,8 @@ public class Autonomous_newRobot extends LinearOpMode {
         backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         telemetry.addLine("Press start");
         telemetry.update();
@@ -46,10 +46,10 @@ public class Autonomous_newRobot extends LinearOpMode {
         waitForStart();
 
         // Rotate left 90 degrees
-        drive(true, false, true, false, 0.8, 1075);
+        drive(true, false, true, false, 0.8, 410);
 
         // Drive Straight
-        drive(false, false, false, false, 0.8, 1075);
+        drive(false, false, false, false, 0.8,915);
 
         brake();
 
