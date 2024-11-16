@@ -75,9 +75,10 @@ public class TeleOp_NewIntake extends LinearOpMode {
 
         //Run to bucket and drop sample
         upSlide.setPower(1);
-        upSlide.setTargetPosition(250);
+        upSlide.setTargetPosition(100);
         Thing2.setPosition(0.17);
         sideSlide.setTargetPosition(0);
+        Elbow.setPosition(0.9);
         upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
@@ -103,7 +104,7 @@ public class TeleOp_NewIntake extends LinearOpMode {
                 Thing1_2.setPosition(0.5);
             }
             if (gamepad1.x) {
-                Elbow.setPosition(0.6);
+                Elbow.setPosition(0.9);
 
             } else if (gamepad1.b) {
                 Elbow.setPosition(0.3);
@@ -160,7 +161,7 @@ public class TeleOp_NewIntake extends LinearOpMode {
 
             // evil floating bit hack
             if (gamepad1.dpad_right) {
-                Thing2.setPosition(0.17);
+                Thing2.setPosition(0);
             }
             else if (gamepad1.dpad_left) {
                 Thing2.setPosition(1);

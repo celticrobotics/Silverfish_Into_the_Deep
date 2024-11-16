@@ -99,7 +99,7 @@ public class TeleOp_testV1 extends LinearOpMode {
                 Elbow.setPosition(0.95);
 
             } else if (gamepad1.b) {
-                Elbow.setPosition(0.3);
+                Elbow.setPosition(0.5);
             }
 
 //            switch (idkman.get_detected_color()) {
