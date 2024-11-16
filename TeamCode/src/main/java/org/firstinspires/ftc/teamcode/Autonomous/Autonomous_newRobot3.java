@@ -51,12 +51,9 @@ public class Autonomous_newRobot3 extends LinearOpMode {
         // Drive straight
         drive(false, false, false, false, 0.8, 2050);
 
-        // Place specimen in pool
+        brake();
 
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
+        // Place specimen in pool
 
         telemetry.addLine("Job Done!");
         telemetry.update();
@@ -146,6 +143,13 @@ public class Autonomous_newRobot3 extends LinearOpMode {
         if (reverseBackRight){
             backRight.setDirection(DcMotorSimple.Direction.REVERSE);
         }
+    }
+
+    void brake(){
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
     }
 }
 

@@ -51,6 +51,8 @@ public class Autonomous_newRobot8 extends LinearOpMode {
         // Drive straight
         drive(false, false, false, false, 0.8, 1075);
 
+        brake();
+
         // Score specimen
 
         // Drive backward
@@ -62,12 +64,9 @@ public class Autonomous_newRobot8 extends LinearOpMode {
         // Drive forward
         drive(false, false, false, false, 0.8, 1000);
 
-        // Pick up specimen here
+        brake();
 
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
+        // Pick up specimen here
 
         telemetry.addLine("Job Done!");
         telemetry.update();
@@ -157,6 +156,13 @@ public class Autonomous_newRobot8 extends LinearOpMode {
         if (reverseBackRight){
             backRight.setDirection(DcMotorSimple.Direction.REVERSE);
         }
+    }
+
+    void brake(){
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
     }
 }
 

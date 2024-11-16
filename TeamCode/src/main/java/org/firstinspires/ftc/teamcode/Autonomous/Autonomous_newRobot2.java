@@ -54,10 +54,7 @@ public class Autonomous_newRobot2 extends LinearOpMode {
         // Strafe left
         drive(true, false, false, true, 0.8, 2050);
 
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
+        brake();
 
         telemetry.addLine("Job Done!");
         telemetry.update();
@@ -147,6 +144,13 @@ public class Autonomous_newRobot2 extends LinearOpMode {
         if (reverseBackRight){
             backRight.setDirection(DcMotorSimple.Direction.REVERSE);
         }
+    }
+
+    void brake(){
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
     }
 }
 

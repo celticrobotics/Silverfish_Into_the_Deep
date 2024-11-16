@@ -51,6 +51,8 @@ public class Autonomous_newRobot6 extends LinearOpMode {
         // Drive straight
         drive(false, false, false, false, 0.8, 2050);
 
+        brake();
+
         // Place specimen in pool
 
         // Drive backward
@@ -61,6 +63,8 @@ public class Autonomous_newRobot6 extends LinearOpMode {
 
         // Drive straight
         drive(false, false, false, false, 0.8, 1075);
+
+        brake();
 
         // Pick up specimen
 
@@ -79,6 +83,8 @@ public class Autonomous_newRobot6 extends LinearOpMode {
         // Drive forward
         drive(false, false, false,false, 0.8, 1000);
 
+        brake();
+
         // Score specimen
 
         // Drive backward
@@ -90,10 +96,7 @@ public class Autonomous_newRobot6 extends LinearOpMode {
         // Drive forward
         drive(false, false, false, false, 0.8, 1075);
 
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
+        brake();
 
         telemetry.addLine("Job Done!");
         telemetry.update();
@@ -183,6 +186,13 @@ public class Autonomous_newRobot6 extends LinearOpMode {
         if (reverseBackRight){
             backRight.setDirection(DcMotorSimple.Direction.REVERSE);
         }
+    }
+
+    void brake(){
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
     }
 }
 

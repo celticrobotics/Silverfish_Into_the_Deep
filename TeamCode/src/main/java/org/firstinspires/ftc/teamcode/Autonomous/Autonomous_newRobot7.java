@@ -51,6 +51,8 @@ public class Autonomous_newRobot7 extends LinearOpMode {
         // Drive straight
         drive(false, false, false, false, 0.8, 1075);
 
+        brake();
+
         // Score specimen
 
         frontLeft.setPower(0);
@@ -146,5 +148,12 @@ public class Autonomous_newRobot7 extends LinearOpMode {
         if (reverseBackRight){
             backRight.setDirection(DcMotorSimple.Direction.REVERSE);
         }
+    }
+
+    void brake(){
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
     }
 }

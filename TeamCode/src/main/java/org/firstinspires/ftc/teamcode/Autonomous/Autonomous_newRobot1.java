@@ -58,6 +58,8 @@ public class Autonomous_newRobot1 extends LinearOpMode {
         // Drive Straight
         drive(false, false, false, false, 0.8, 1075);
 
+        brake();
+
         // Supposed to collect a specimen here!!
 
         // Rotate left 180 degrees
@@ -66,13 +68,10 @@ public class Autonomous_newRobot1 extends LinearOpMode {
         // Drive Straight
         drive(false, false,false, false, 0.8, 1075);
 
+        brake();
+
         // Optional: Place specimen in basket
         // moveSlide(500, 0.5);
-
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
 
         telemetry.addLine("Job Done!");
         telemetry.update();
@@ -161,5 +160,12 @@ public class Autonomous_newRobot1 extends LinearOpMode {
         if (reverseBackRight){
             backRight.setDirection(DcMotorSimple.Direction.REVERSE);
         }
+    }
+
+    void brake(){
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
     }
 }
