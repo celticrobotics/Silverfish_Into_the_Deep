@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@Autonomous(name = "Blue NZ Parking")
-public class Autonomous_newRobot2 extends LinearOpMode {
+@Autonomous(name = "Blue NZ level 5")
+public class Autonomous_newRobot5 extends LinearOpMode {
     DcMotor linearSlide;
     DcMotor frontLeft;
     DcMotor frontRight;
@@ -45,16 +45,47 @@ public class Autonomous_newRobot2 extends LinearOpMode {
 
         waitForStart();
 
-        // Rotate right 90 degrees
-        drive(false, true, false, true, 0.8, 1075);
+        // Strafe right
+        drive(false, true,true, false, 0.8, 1075);
 
         // Drive straight
-        drive(false, false, false, false, 0.8, 1075);
+        drive(false, false, false, false, 0.8, 2050);
+
+        brake();
+
+        // Put specimen in pool
+
+        // Drive backward
+        drive(true, true, true, true, 0.8, 1075);
 
         // Strafe left
         drive(true, false, false, true, 0.8, 2050);
 
+        // Drive straight
+        drive(false, false, false, false, 0.8, 1075);
+
         brake();
+
+        // Pick up specimen
+
+        // Drive backward
+        drive(true, true, true, true, 0.8, 1075);
+
+        // Rotate left 90 degrees
+        drive(true, false, true, false, 0.8, 1075);
+
+        // Drive forward
+        drive(false, false, false,false, 0.8, 1000);
+
+        // Rotate left 90 degrees
+        drive(true, false, true, false, 0.8, 1075);
+
+        // Drive forward
+        drive(false, false, false,false, 0.8, 1000);
+
+        brake();
+
+        // Score specimen
 
         telemetry.addLine("Job Done!");
         telemetry.update();
@@ -153,4 +184,6 @@ public class Autonomous_newRobot2 extends LinearOpMode {
         backRight.setPower(0);
     }
 }
+
+
 

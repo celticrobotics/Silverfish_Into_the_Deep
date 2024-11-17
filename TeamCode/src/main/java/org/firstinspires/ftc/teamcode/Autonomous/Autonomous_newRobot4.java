@@ -37,20 +37,34 @@ public class Autonomous_newRobot4 extends LinearOpMode {
         backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         telemetry.addLine("Press start");
         telemetry.update();
 
         waitForStart();
 
-        // Put drive stuff here
+        // Strafe right
+        drive(false, true,true, false, 0.8, 1075);
 
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
+        // Drive straight
+        drive(false, false, false, false, 0.8, 2050);
+
+        brake();
+
+        // Put specimen in pool
+
+        // Drive backward
+        drive(true, true, true, true, 0.8, 1075);
+
+        // Strafe left
+        drive(true, false, false, true, 0.8, 2050);
+
+        // Drive straight
+        drive(false, false, false, false, 0.8, 1075);
+
+        brake();
 
         telemetry.addLine("Job Done!");
         telemetry.update();
@@ -140,6 +154,13 @@ public class Autonomous_newRobot4 extends LinearOpMode {
         if (reverseBackRight){
             backRight.setDirection(DcMotorSimple.Direction.REVERSE);
         }
+    }
+
+    void brake(){
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
     }
 }
 

@@ -5,23 +5,24 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.RobotLog;
 
-@Autonomous(name = "Auto test")
-public class Autonomous_TestV1 extends LinearOpMode {
-//    @Override public void runOpMode() {
-//        encoders enc = new encoders(hardwareMap, () -> {
-//            telemetry.addLine("something is hapeong idk");
-//            telemetry.update();
-//            return opModeIsActive(); }, this::idle);
-//
-//        waitForStart();
-//
-//        enc.move(2000, 2000, 2000, 2000, 0.6);
-//    }
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import java.util.Locale;
+
+@Autonomous(name = "Auto test sigma")
+public class AutonomousTestV2withsigmaBrandonandOliver {
+    AutonomousTestV2withsigmaBrandonandOliver(HardwareMap map) {
+        hardwareMap = map;
+    }
+
+
+    private final HardwareMap hardwareMap;
+    private final Telemetry telemetry;
 
     private DcMotor leftFront;
     private DcMotor rightFront;
@@ -31,11 +32,12 @@ public class Autonomous_TestV1 extends LinearOpMode {
     DcMotor sideSlide;
     DcMotor upSlide;
 
-    Servo Thing1;
+    Servo Thing11;
+    Servo Thing12;
     Servo Elbow;
     Servo Thing2;
 
-    private ElapsedTime runtime = new ElapsedTime();
+    private final ElapsedTime runtime = new ElapsedTime();
 
     static final double COUNTS_PER_REV = 537.7;
     static final double CIRCUMFERENCE_CM = 9.6;
@@ -44,20 +46,6 @@ public class Autonomous_TestV1 extends LinearOpMode {
 
     static final double power = 0.20;
 
-    @Override
-    public void runOpMode() {
-        setup();
-
-        telemetry.addData("Status", "Initialized");
-        telemetry.addData("EncoderLeft: ", String.valueOf(leftFront.getCurrentPosition()), "Encoder Right: ", rightFront.getCurrentPosition());
-        telemetry.update();
-
-        waitForStart();
-
-        fwd(0.5, 200, 5);
-        turn(0.5, 90, 5);
-        strafe(-.5, 200, 6);
-    }
 
     private void move(double speed, double[] distance, double timeout) {
 
@@ -83,17 +71,12 @@ public class Autonomous_TestV1 extends LinearOpMode {
 
         runtime.reset();
 
-        leftBack.setPower(Math.abs(speed));
-        rightBack.setPower(Math.abs(speed));
-        leftFront.setPower(Math.abs(speed));
-        rightFront.setPower(Math.abs(speed));
-
+        leftBack.setPower(speed);
+        rightBack.setPower(speed);
+        leftFront.setPower(speed);
+        rightFront.setPower(speed);
 
         while (opModeIsActive() && (leftFront.isBusy() || rightFront.isBusy()) && (runtime.seconds() < timeout)) {
-
-//                telemetry.addData("LeftDrive ", (leftFront.getCurrentPosition() / CIRCUMFERENCE_CM));
-//                telemetry.addData("RightDrive ", (rightFront.getCurrentPosition() / CIRCUMFERENCE_CM));
-
             telemetry.addData("LeftDrive ", leftFront.getCurrentPosition());
             telemetry.addData("RightDrive ", rightFront.getCurrentPosition());
             telemetry.addData("LeftDrive Target Pos", leftFrontT);
@@ -102,7 +85,6 @@ public class Autonomous_TestV1 extends LinearOpMode {
             telemetry.update();
 
         }
-
 
         leftBack.setPower(0);
         rightBack.setPower(0);
@@ -116,30 +98,29 @@ public class Autonomous_TestV1 extends LinearOpMode {
 
 
         sleep(50);
-
     }
 
-    private void fwd(double speed, double distance, double timeout) {
+    public void fwd(double speed, double distance, double timeout) {
         move(speed, new double[]{distance, distance, distance, distance}, timeout);
     }
 
-    private void turn(double speed, double dgr, double timeout) {
+    public void turn(double speed, double dgr, double timeout) {
         final double real_degrees_idk_bruh_dont_ask_me_skibidi = dgr / -6.42857142857; //360/56 --> (7 dgr = 45 degree) * 8 to reach 360
 
         move(speed, new double[]{
-                -real_degrees_idk_bruh_dont_ask_me_skibidi,
-                 real_degrees_idk_bruh_dont_ask_me_skibidi,
-                -real_degrees_idk_bruh_dont_ask_me_skibidi,
-                 real_degrees_idk_bruh_dont_ask_me_skibidi},
-            timeout);
+                        -real_degrees_idk_bruh_dont_ask_me_skibidi,
+                        real_degrees_idk_bruh_dont_ask_me_skibidi,
+                        -real_degrees_idk_bruh_dont_ask_me_skibidi,
+                        real_degrees_idk_bruh_dont_ask_me_skibidi},
+                timeout);
 
     }
 
-    private void strafe(double speed, double distance, double timeout) {
+    public void strafe(double speed, double distance, double timeout) {
         move(speed, new double[]{distance, -distance, -distance, distance}, timeout);
     }
 
-    private void setup() {
+    public void setup() {
         leftFront = hardwareMap.get(DcMotor.class, "FL");
         rightFront = hardwareMap.get(DcMotor.class, "FR");
         leftBack = hardwareMap.get(DcMotor.class, "BL");
@@ -148,7 +129,8 @@ public class Autonomous_TestV1 extends LinearOpMode {
         sideSlide = hardwareMap.get(DcMotor.class, "sideSlide");
         upSlide = hardwareMap.get(DcMotor.class, "upSlide");
 
-        Thing1 = hardwareMap.get(Servo.class, "Thing1");
+        Thing11 = hardwareMap.get(Servo.class, "Thing1_1");
+        Thing12 = hardwareMap.get(Servo.class, "Thing1_2");
         Elbow = hardwareMap.get(Servo.class, "Elbow");
         Thing2 = hardwareMap.get(Servo.class, "Thing2");
 
@@ -178,40 +160,84 @@ public class Autonomous_TestV1 extends LinearOpMode {
         upSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         sideSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        upSlide.setDirection(DcMotorSimple.Direction.FORWARD);
+        upSlide.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
-    void bring_block_into_up_bucket() {
-        // bring side slide into robot
-//        sideSlide.setTargetPosition(-2100);
-//        sideSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        sideSlide.setPower(1);
+    public void moveVerticalLinearSlide(double speed, int position, int timeout){
+        int upSlideT = upSlide.getCurrentPosition() + position;
 
-        Thing1.setPosition(1);
-
-
-        while (sideSlide.isBusy() && opModeIsActive()) {
-            idle();
-        }
-    }
-
-    void raise_Slides() {
-        upSlide.setTargetPosition(3000);
+        upSlide.setTargetPosition(upSlideT);
         upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        upSlide.setPower(1);
 
-        while (upSlide.isBusy() && opModeIsActive()) {
-            idle();
+        runtime.reset();
+
+        upSlide.setPower(speed);
+
+        while (opModeIsActive() && upSlide.isBusy() && runtime.seconds() < timeout) {
+            final int currentPosition = upSlide.getCurrentPosition();
+
+            telemetry.addLine()
+                    .addData("target position", upSlideT)
+                    .addData("current position", currentPosition)
+                    .addData("completion", String.format(Locale.CANADA, "%d%%", (currentPosition / upSlideT) * 100));
         }
 
-
+        upSlide.setPower(0);
+        upSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-//    void intake(double timeout) {
-//        while(timeout Thing1.setPosition(0);
-//
-//        while (upSlide.isBusy() && opModeIsActive()) {
-//            idle();
-//        }
-//    }
+    public void moveHorizontalLinearSlide(double speed, int position, int timeout){
+        int sideSlideT = sideSlide.getCurrentPosition() + position;
+
+        sideSlide.setTargetPosition(sideSlideT);
+        sideSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        runtime.reset();
+
+        sideSlide.setPower(speed);
+
+        while (opModeIsActive() && sideSlide.isBusy() && runtime.seconds() < timeout) {
+            final int currentPosition = sideSlide.getCurrentPosition();
+
+            telemetry.addLine()
+                    .addData("target position", sideSlideT)
+                    .addData("current position", currentPosition)
+                    .addData("completion", String.format(Locale.CANADA, "%d%%", (currentPosition / sideSlideT) * 100));
+        }
+
+        sideSlide.setPower(0);
+        sideSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void rotateThingyIntoBasket() {
+        // Might break because Emmy didn't give shit
+        Thing2.setPosition(0);
+
+        sleep(600);
+
+        // Might break because Emmy didn't give shit
+        Thing2.setPosition(1);
+    }
+
+    public void scoreBlockThingy() {
+        moveVerticalLinearSlide(0.7, 4000, 5);
+        rotateThingyIntoBasket();
+        moveVerticalLinearSlide(0.7, 250, 5);
+    }
+
+    // might not work, imma blame emmy for lack of info
+    public void intake() {
+        Thing11.setPosition(0);
+        Thing12.setPosition(1);
+    }
+
+    // might not work, imma blame emmy for lack of info
+    public void outtake() {
+        Thing11.setPosition(1);
+        Thing12.setPosition(0);
+    }
+
+    ... void rotateOurElbow(double position) {
+        Elbow.setPosition(position);
+    }
 }

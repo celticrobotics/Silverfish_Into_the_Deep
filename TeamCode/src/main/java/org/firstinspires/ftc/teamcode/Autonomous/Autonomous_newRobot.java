@@ -37,24 +37,21 @@ public class Autonomous_newRobot extends LinearOpMode {
         backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         telemetry.addLine("Press start");
         telemetry.update();
 
         waitForStart();
 
-        // Rotate left 90 degress
-        drive(true, false, true, false, 0.8, 1075);
+        // Rotate left 90 degrees
+        drive(true, false, true, false, 0.8, 410);
 
         // Drive Straight
-        drive(false, false, false, false, 0.8, 1075);
+        drive(false, false, false, false, 0.8,915);
 
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
+        brake();
 
         // Optional: Place specimen in basket
         // moveSlide(500, 0.5);
@@ -146,5 +143,12 @@ public class Autonomous_newRobot extends LinearOpMode {
         if (reverseBackRight){
             backRight.setDirection(DcMotorSimple.Direction.REVERSE);
         }
+    }
+
+    void brake(){
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
     }
 }
