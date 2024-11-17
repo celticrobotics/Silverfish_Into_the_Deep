@@ -78,7 +78,7 @@ public class TeleOp_NewIntake extends LinearOpMode {
         upSlide.setTargetPosition(100);
         Thing2.setPosition(0.17);
         sideSlide.setTargetPosition(0);
-        Elbow.setPosition(0.9);
+        Elbow.setPosition(0.91);
         upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
@@ -89,7 +89,7 @@ public class TeleOp_NewIntake extends LinearOpMode {
         while(opModeIsActive()) {
             Move();
 
-            sideSlidePos = Math.max(Math.min(sideSlidePos, 0), -2100);
+            sideSlidePos = Math.max(Math.min(sideSlidePos, 0), -1900);
             upSlidePos = Math.max(Math.min(upSlidePos, 0), -3150);
 
             //Thing1 and Elbow Button Control
@@ -104,7 +104,7 @@ public class TeleOp_NewIntake extends LinearOpMode {
                 Thing1_2.setPosition(0.5);
             }
             if (gamepad1.x) {
-                Elbow.setPosition(0.9);
+                Elbow.setPosition(0.91);
 
             } else if (gamepad1.b) {
                 Elbow.setPosition(0.3);
@@ -164,14 +164,14 @@ public class TeleOp_NewIntake extends LinearOpMode {
                 Thing2.setPosition(0);
             }
             else if (gamepad1.dpad_left) {
-                Thing2.setPosition(1);
+                Thing2.setPosition(0.8);
             }
 
             // evil floating bit hack
             if (gamepad1.dpad_up) {
                 upSlide.setTargetPosition(4000);
             } else if (gamepad1.dpad_down) {
-                upSlide.setTargetPosition(250);
+                upSlide.setTargetPosition(100);
             }
 
             upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -191,6 +191,7 @@ public class TeleOp_NewIntake extends LinearOpMode {
         upSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         upSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        upSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         upSlide.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
