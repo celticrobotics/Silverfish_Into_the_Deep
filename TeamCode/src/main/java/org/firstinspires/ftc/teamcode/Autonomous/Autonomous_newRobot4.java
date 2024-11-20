@@ -31,11 +31,12 @@ public class Autonomous_newRobot4 extends LinearOpMode {
         linearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // All motors will be using run to position encoders.
-        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // crashes for some fucking reason
+//        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
