@@ -20,10 +20,6 @@ public class Basic_Motor_Test extends LinearOpMode {
         waitForStart();
 
 
-
-        //Slide.setTargetPosition(4000);
-        //.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         while(opModeIsActive())
         {
             Slide.setPower(1);

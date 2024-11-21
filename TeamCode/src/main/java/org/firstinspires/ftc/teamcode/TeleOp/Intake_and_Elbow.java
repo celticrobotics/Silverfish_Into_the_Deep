@@ -40,10 +40,8 @@ public class Intake_and_Elbow extends LinearOpMode {
         Arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-
         Motor_Config();
 
-        SlidePos = Slide.getCurrentPosition();
         Slide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         waitForStart();
@@ -56,6 +54,7 @@ public class Intake_and_Elbow extends LinearOpMode {
             Move();
 
             ArmPos = Arm.getCurrentPosition();
+            SlidePos = Slide.getCurrentPosition();
 
             if (gamepad1.a) {
                 LeftC.setPosition(0);
@@ -87,14 +86,13 @@ public class Intake_and_Elbow extends LinearOpMode {
 
             if(gamepad1.dpad_left)
             {
-                Elbow.setPosition(0.4);
+                Elbow.setPosition(0.2);
             }
             else if(gamepad1.dpad_right)
             {
                 Elbow.setPosition(0.6);
             }
 
-            SlidePos = Math.max(Math.min(SlidePos, 0), -2100);
 
             telemetry.addData("ElbowPos", Elbow.getPosition());
             telemetry.addData("LeftC",LeftC.getPosition());
@@ -105,10 +103,13 @@ public class Intake_and_Elbow extends LinearOpMode {
             telemetry.update();
 
             ArmPos = Math.max(0, Math.min(1900, ArmPos));
+            SlidePos = Math.max(0, Math.min(4000, SlidePos));
             Arm.setTargetPosition(ArmPos);
+            Slide.setTargetPosition(SlidePos);
             Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             Slide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             Arm.setPower(1);
+            Slide.setPower(0.5);
 
         }
 
@@ -139,7 +140,7 @@ public class Intake_and_Elbow extends LinearOpMode {
 
         Slide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        Slide.setDirection(DcMotorSimple.Direction.FORWARD);
+        Slide.setDirection(DcMotorSimple.Direction.REVERSE);
 
     }
 
