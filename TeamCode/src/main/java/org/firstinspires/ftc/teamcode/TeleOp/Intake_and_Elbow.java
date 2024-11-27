@@ -83,6 +83,10 @@ public class Intake_and_Elbow extends LinearOpMode {
             } else if (gamepad1.dpad_down) {
                 SlidePos -= 100;
             }
+            else
+            {
+                SlidePos += 0;
+            }
 
             if(gamepad1.dpad_left)
             {
@@ -103,7 +107,7 @@ public class Intake_and_Elbow extends LinearOpMode {
             telemetry.update();
 
             ArmPos = Math.max(0, Math.min(1900, ArmPos));
-            SlidePos = Math.max(0, Math.min(4000, SlidePos));
+            SlidePos = Math.max(0, Math.min(1000, SlidePos));
             Arm.setTargetPosition(ArmPos);
             Slide.setTargetPosition(SlidePos);
             Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);

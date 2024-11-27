@@ -19,7 +19,6 @@ public class Basic_Motor_Test extends LinearOpMode {
 
         waitForStart();
 
-
         while(opModeIsActive())
         {
             Slide.setPower(1);
