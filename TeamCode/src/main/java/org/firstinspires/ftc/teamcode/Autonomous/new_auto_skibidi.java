@@ -11,6 +11,7 @@ public class new_auto_skibidi extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         AutonomousTestV2withsigmaBrandonandOliver idk_man = new AutonomousTestV2withsigmaBrandonandOliver(hardwareMap, telemetry, this::opModeIsActive, this::sleep);
 
+        idk_man.setup();
         //idk_man.fwd(0.5, 10, 2);
         idk_man.intake(Intake.OUTTAKE, 10);
     }
