@@ -11,12 +11,16 @@ public class Basic_Servo_Test extends LinearOpMode {
 
         Servo Servo;
         double ServoPos;
+        Servo Wrist;
 
-        Servo = hardwareMap.get(Servo.class, "Elbow");
+        Servo = hardwareMap.get(Servo.class, "Thing 1");
+        Wrist = hardwareMap.get(Servo.class, "Claw wrist");
+
 
         waitForStart();
 
         Servo.setPosition(0.9);
+        Wrist.setPosition(0);
 
         while(opModeIsActive()){
 
@@ -25,14 +29,25 @@ public class Basic_Servo_Test extends LinearOpMode {
 
             if(gamepad1.x)
             {
-                Servo.setPosition(0.9);
+                Servo.setPosition(0.5);
             }
             else if(gamepad1.b)
             {
-                Servo.setPosition(0.3);
+                Servo.setPosition(0);
             }
 
-            telemetry.addData("Elbow Pos", Servo.getPosition());
+            if(gamepad2.a)
+            {
+                Wrist.setPosition(0);
+            }
+            else if(gamepad2.y)
+            {
+                Wrist.setPosition(0.6);
+            }
+
+            telemetry.addData("Claw Pos", Servo.getPosition());
+            telemetry.addData("Wrist Pos", Wrist.getPosition());
+
             telemetry.update();
 
         }

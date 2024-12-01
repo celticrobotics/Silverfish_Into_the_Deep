@@ -29,7 +29,7 @@ public class Qualifier_Robot extends LinearOpMode {
     DcMotor sideSlide;
     DcMotor upSlide;
 
-    //Servo Wrist;
+    Servo Wrist;
     Servo Elbow;
     Servo Claw;
     Servo Bucket;
@@ -45,12 +45,16 @@ public class Qualifier_Robot extends LinearOpMode {
 
         waitForStart();
 
+        //Claw.setPosition(0);
+        sideSlide.setTargetPosition(800);
+
         while(opModeIsActive())
         {
-            move((0.5 * (1 * -gamepad1.left_stick_y + 1 * (1 * gamepad1.left_stick_x - gamepad1.right_stick_x))),
-                    (0.5 * (1 * gamepad1.left_stick_y + 1 * (1 * gamepad1.left_stick_x - gamepad1.right_stick_x))),
-                    (0.5 * (1 * -gamepad1.left_stick_y + 1 * (1 * -gamepad1.left_stick_x - gamepad1.right_stick_x))),
-                    (0.5 * (1 * gamepad1.left_stick_y + 1 * -(1 * gamepad1.left_stick_x + gamepad1.right_stick_x))));
+
+//            move((0.5 * (1 * -gamepad1.left_stick_y + 1 * (1 * gamepad1.left_stick_x - gamepad1.right_stick_x))),
+//                    (0.5 * (1 * gamepad1.left_stick_y + 1 * (1 * gamepad1.left_stick_x - gamepad1.right_stick_x))),
+//                    (0.5 * (1 * -gamepad1.left_stick_y + 1 * (1 * -gamepad1.left_stick_x - gamepad1.right_stick_x))),
+//                    (0.5 * (1 * gamepad1.left_stick_y + 1 * -(1 * gamepad1.left_stick_x + gamepad1.right_stick_x))));
 
 //            if (gamepad1.a){
 //                // Sets Wrist position to 0.5
@@ -60,14 +64,20 @@ public class Qualifier_Robot extends LinearOpMode {
 //                Wrist.setPosition(0.1);
 //            }
 
+
             // Sets Elbow position
             setElbow(gamepad1.x);
+            setWrist(gamepad1.b);
 
-            if (gamepad1.left_bumper){
-                Claw.setPosition(0);
-            } else if (gamepad1.right_bumper){
-                Claw.setPosition(0.5);
-            }
+//            if(gamepad1.dpad_left)
+//            {
+//                Claw.setPosition(0);
+//            }
+//            else if(gamepad1.dpad_right)
+//            {
+//                Claw.setPosition(0.5);
+//            }
+
 
             if (gamepad2.y){
                 // Sets UpSlide target position to 1500
@@ -99,7 +109,7 @@ public class Qualifier_Robot extends LinearOpMode {
         sideSlide = hardwareMap.get(DcMotor.class, "sideSlide");
         upSlide = hardwareMap.get(DcMotor.class, "upSlide");
 
-        //Wrist = hardwareMap.get(Servo.class, "Claw wrist");
+        Wrist = hardwareMap.get(Servo.class, "Claw wrist");
         Elbow = hardwareMap.get(Servo.class, "Elbow");
         Claw = hardwareMap.get(Servo.class, "Thing 1");
         Bucket = hardwareMap.get(Servo.class, "Thing2");
@@ -125,19 +135,19 @@ public class Qualifier_Robot extends LinearOpMode {
 
     public void getTelemetry(){
         telemetry.addData("Elbow", Elbow.getPosition());
-        //telemetry.addData("Wrist", Wrist.getPosition());
+        telemetry.addData("Wrist", Wrist.getPosition());
         telemetry.addData("Claw", Claw.getPosition());
         telemetry.addData("SideSlide", sideSlide.getCurrentPosition());
         telemetry.addData("UpSlide", upSlide.getCurrentPosition());
         telemetry.update();
     }
 
-    public void move(double rbPower, double lbPower, double rfPower, double lfPower){
-        rightBack.setPower(rbPower);
-        leftBack.setPower(lbPower);
-        rightFront.setPower(rfPower);
-        leftFront.setPower(lfPower);
-    }
+//    public void move(double rbPower, double lbPower, double rfPower, double lfPower){
+//        rightBack.setPower(rbPower);
+//        leftBack.setPower(lbPower);
+//        rightFront.setPower(rfPower);
+//        leftFront.setPower(lfPower);
+//    }
 
     public void setElbow(boolean rotation){
         if (rotation){
@@ -146,6 +156,15 @@ public class Qualifier_Robot extends LinearOpMode {
             Elbow.setPosition(0.3);
         }
     }
+    public void setWrist(boolean rotation){
+        if (rotation){
+            Wrist.setPosition(0.5);
+        } else {
+            Wrist.setPosition(0.1);
+        }
+    }
+
+
 
     public void setUpSlidePos(boolean direction){
         if (direction) {
