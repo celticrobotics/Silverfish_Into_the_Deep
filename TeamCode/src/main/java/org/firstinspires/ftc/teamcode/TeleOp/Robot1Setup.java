@@ -36,6 +36,7 @@ public class Robot1Setup {
     Servo Claw;
     Servo Wrist;
     Servo Elbow;
+    Servo Bucket;
 
     private final ElapsedTime runtime = new ElapsedTime();
 
@@ -48,9 +49,10 @@ public class Robot1Setup {
         sideSlide = hardwareMap.get(DcMotor.class, "sideSlide");
         upSlide = hardwareMap.get(DcMotor.class, "upSlide");
 
-        Claw = hardwareMap.get(Servo.class, "Claw");
-        Wrist = hardwareMap.get(Servo.class, "Wrist");
+        Claw = hardwareMap.get(Servo.class, "Thing 1");
+        Wrist = hardwareMap.get(Servo.class, "Claw wrist");
         Elbow = hardwareMap.get(Servo.class, "Elbow");
+        Bucket = hardwareMap.get(Servo.class, "Thing2");
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         leftBack.setDirection(DcMotor.Direction.REVERSE);
@@ -94,7 +96,6 @@ public class Robot1Setup {
             Elbow.setPosition(0.3);
         }
     }
-
     public void setWrist(boolean rotation){
         if (rotation){
             Wrist.setPosition(0.5);
@@ -103,7 +104,7 @@ public class Robot1Setup {
         }
     }
 
-    public void setUpSlidePos(boolean direction){
+   public void setUpSlidePos(boolean direction){
         if (direction) {
             upSlide.setTargetPosition(1500);
             upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
