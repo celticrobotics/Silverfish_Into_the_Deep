@@ -321,7 +321,7 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
 //        Thing12.setPosition(0);
 //    }
 //
-//    ... void rotateOurElbow(double position) {
+//    public void rotateOurElbow(double position) {
 //        Elbow.setPosition(position);
 //    }
 
