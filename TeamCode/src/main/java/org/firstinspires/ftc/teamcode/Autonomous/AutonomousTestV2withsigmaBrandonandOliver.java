@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import java.util.Locale;
 
 import org.firstinspires.ftc.robotcore.external.Consumer;
 import org.firstinspires.ftc.robotcore.external.Supplier;
@@ -19,7 +20,7 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
         this.sleep = sleep;
     }
 
-
+    // Declares and initializes motors, servos, and constants
     private final HardwareMap hardwareMap;
     private final Telemetry telemetry;
     private final Supplier<Boolean> opModeIsActive;
@@ -30,7 +31,8 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
     private DcMotor leftBack;
     private DcMotor rightBack;
 
-    DcMotor Slide;
+    DcMotor SlideH;
+    DcMotor SlideV;
     DcMotor Arm;
 
     Servo RightC;
@@ -40,13 +42,20 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
     private final ElapsedTime runtime = new ElapsedTime();
 
     static final double COUNTS_PER_REV = 537.7;
+
     static final double CIRCUMFERENCE_CM = 9.6;
 
     static final double COUNTS_PER_CM = COUNTS_PER_REV / CIRCUMFERENCE_CM;
 
     static final double power = 0.20;
 
-
+    /**
+     * Moves the robot by setting target positions for each motor and applying power.
+     *
+     * @param speed The power level to apply to the motors (0 to 1).
+     * @param distance An array of distances (in cm) for each motor in the order [leftFront, rightFront, leftBack, rightBack].
+     * @param timeout The maximum time (in seconds) to complete the movement.
+     */
     private void move(double speed, double[] distance, double timeout) {
 
         int leftBackT;
@@ -54,16 +63,19 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
         int leftFrontT;
         int rightFrontT;
 
+        // Calculate target positions based on current positions and desired distances
         leftFrontT = leftFront.getCurrentPosition() + (int) (distance[0] * COUNTS_PER_CM);
         rightFrontT = rightFront.getCurrentPosition() + (int) (distance[1] * COUNTS_PER_CM);
         leftBackT = leftBack.getCurrentPosition() + (int) (distance[2] * COUNTS_PER_CM);
         rightBackT = rightBack.getCurrentPosition() + (int) (distance[3] * COUNTS_PER_CM);
 
+        // Set target positions for each motor
         leftBack.setTargetPosition(leftBackT);
         rightBack.setTargetPosition(rightBackT);
         leftFront.setTargetPosition(leftFrontT);
         rightFront.setTargetPosition(rightFrontT);
 
+        // Set motors to RUN_TO_POSITION mode
         leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -71,11 +83,13 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
 
         runtime.reset();
 
+        // Apply power to the motors
         leftBack.setPower(speed);
         rightBack.setPower(speed);
         leftFront.setPower(speed);
         rightFront.setPower(speed);
 
+        // Monitor movement progress and timeout
         while (opModeIsActive.get() && (leftFront.isBusy() || rightFront.isBusy()) && (runtime.seconds() < timeout)) {
             telemetry.addData("LeftDrive ", leftFront.getCurrentPosition());
             telemetry.addData("RightDrive ", rightFront.getCurrentPosition());
@@ -86,6 +100,7 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
 
         }
 
+        // Stop motors and reset mode to RUN_USING_ENCODER
         leftBack.setPower(0);
         rightBack.setPower(0);
         leftFront.setPower(0);
@@ -100,13 +115,30 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
         sleep.accept(50L);
     }
 
+    /**
+     * Moves the robot forward or backward by the specified distance.
+     *
+     * @param speed The power level to apply to the motors (0 to 1).
+     * @param distance The distance (in cm) to move. Positive for forward, negative for backward.
+     * @param timeout The maximum time (in seconds) to complete the movement.
+     */
     public void fwd(double speed, double distance, double timeout) {
+        // Call the move method with equal distances for all motors
         move(speed, new double[]{distance, distance, distance, distance}, timeout);
     }
 
+    /**
+     * Rotates the robot in place by a specified angle.
+     *
+     * @param speed The power level to apply to the motors (0 to 1).
+     * @param dgr The angle (in degrees) to turn. Positive for clockwise, negative for counterclockwise.
+     * @param timeout The maximum time (in seconds) to complete the turn.
+     */
     public void turn(double speed, double dgr, double timeout) {
+        // Calculate the encoder distance required for the turn
         final double real_degrees_idk_bruh_dont_ask_me_skibidi = dgr / -6.42857142857; //360/56 --> (7 dgr = 45 degree) * 8 to reach 360
 
+        // Call the move method with opposite distances for left and right motors
         move(speed, new double[]{
                         -real_degrees_idk_bruh_dont_ask_me_skibidi,
                         real_degrees_idk_bruh_dont_ask_me_skibidi,
@@ -116,28 +148,44 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
 
     }
 
+    /**
+     * Moves the robot sideways (left or right) by a specified distance.
+     *
+     * @param speed The power level to apply to the motors (0 to 1).
+     * @param distance The distance (in cm) to strafe. Positive for right, negative for left.
+     * @param timeout The maximum time (in seconds) to complete the movement.
+     */
     public void strafe(double speed, double distance, double timeout) {
+        // Call the move method with a specific motor pattern for strafing
         move(speed, new double[]{distance, -distance, -distance, distance}, timeout);
     }
 
+    /**
+     * Initializes and configures all hardware components (motors, servos, etc...).
+     * This method must be called before any other methods in the class.
+     */
     public void setup() {
+        // Map motors and servos to hardware configurations
         leftFront = hardwareMap.get(DcMotor.class, "FL");
         rightFront = hardwareMap.get(DcMotor.class, "FR");
         leftBack = hardwareMap.get(DcMotor.class, "BL");
         rightBack = hardwareMap.get(DcMotor.class, "BR");
 
-        Slide = hardwareMap.get(DcMotor.class, "Slide");
-        Arm = hardwareMap.get(DcMotor.class, "Arm");
+        SlideH = hardwareMap.get(DcMotor.class, "SlideH");
+        SlideV = hardwareMap.get(DcMotor.class, "SlideV");
+        Arm = hardwareMap.get(DcMotor.class, "ArmH");
 
         RightC = hardwareMap.get(Servo.class, "RightC");
         LeftC = hardwareMap.get(Servo.class, "LeftC");
         Elbow = hardwareMap.get(Servo.class, "Elbow");
 
+        // Configure motor directions
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         leftBack.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
         rightBack.setDirection(DcMotor.Direction.FORWARD);
 
+        // Reset encoders and set motors to RUN_USING_ENCODER mode.
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -148,66 +196,103 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
         leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        // Set zero power behaviour to BRAKE for precise stopping.
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        Slide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        SlideH.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        SlideV.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        Slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        SlideH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        SlideV.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        Slide.setDirection(DcMotorSimple.Direction.REVERSE);
+        // Set up servo directions and default positions (if needed)
+        SlideH.setDirection(DcMotorSimple.Direction.REVERSE);
+        SlideV.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
-//    public void moveVerticalLinearSlide(double speed, int position, int timeout){
-//        int upSlideT = upSlide.getCurrentPosition() + position;
-//
-//        upSlide.setTargetPosition(upSlideT);
-//        upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//        runtime.reset();
-//
-//        upSlide.setPower(speed);
-//
-//        while (opModeIsActive.get() && upSlide.isBusy() && runtime.seconds() < timeout) {
-//            final int currentPosition = upSlide.getCurrentPosition();
-//
-//            telemetry.addLine()
-//                    .addData("target position", upSlideT)
-//                    .addData("current position", currentPosition)
-//                    .addData("completion", String.format(Locale.CANADA, "%d%%", (currentPosition / upSlideT) * 100));
-//        }
-//
-//        upSlide.setPower(0);
-//        upSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//    }
-//
-//    public void moveHorizontalLinearSlide(double speed, int position, int timeout){
-//        int sideSlideT = sideSlide.getCurrentPosition() + position;
-//
-//        sideSlide.setTargetPosition(sideSlideT);
-//        sideSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//        runtime.reset();
-//
-//        sideSlide.setPower(speed);
-//
-//        while (opModeIsActive.get() && sideSlide.isBusy() && runtime.seconds() < timeout) {
-//            final int currentPosition = sideSlide.getCurrentPosition();
-//
-//            telemetry.addLine()
-//                    .addData("target position", sideSlideT)
-//                    .addData("current position", currentPosition)
-//                    .addData("completion", String.format(Locale.CANADA, "%d%%", (currentPosition / sideSlideT) * 100));
-//        }
-//
-//        sideSlide.setPower(0);
-//        sideSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//    }
-//
+    /**
+     * Moves the vertical linear slide to a specified position using encoder counts.
+     *
+     * @param speed The power to apply to the motor (range: 0.0 to 1.0).
+     * @param position The target position in encoder counts to move the slide to, relative to its current position.
+     * @param timeout The maximum time (in seconds) to allow the slide to reach the target position.
+     */
+    public void moveVerticalLinearSlide(double speed, int position, int timeout){
+        // Calculate the target position by adding the desired movement to the current encoder position
+        int upSlideT = SlideV.getCurrentPosition() + position;
+
+        // Set the motor's target position for encoder-based movement
+        SlideV.setTargetPosition(upSlideT);
+
+        // Configure the motor to run to the specified position
+        SlideV.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // Reset the runtime timer to measure how long the operation takes
+        runtime.reset();
+
+        // Set the motor power to the specified speed to start moving
+        SlideV.setPower(speed);
+
+        // Continuously monitor the motor's progress while the operation is active and within the timeout limit
+        while (opModeIsActive.get() && SlideV.isBusy() && runtime.seconds() < timeout) {
+            // Retrieve the current encoder position of the motor
+            final int currentPosition = SlideV.getCurrentPosition();
+
+            telemetry.addLine()
+                    .addData("target position", upSlideT)
+                    .addData("current position", currentPosition)
+                    .addData("completion", String.format(Locale.CANADA, "%d%%", (currentPosition * 100) / upSlideT));
+        }
+
+        // Stop the motor and set the motor to RUN_USING_ENCODER mode
+        SlideV.setPower(0);
+        SlideV.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    /**
+     * Moves the horizontal linear slide to a specified position using encoder counts.
+     *
+     * @param speed The power to apply to the motor (range: 0.0 to 1.0).
+     * @param position The target position in encoder counts to move the slide to, relative to its current position.
+     * @param timeout The maximum time (in seconds) to allow the slide to reach the target position.
+     */
+    public void moveHorizontalLinearSlide(double speed, int position, int timeout){
+        // Calculate the target position by adding the desired movement to the current encoder position
+        int sideSlideT = SlideV.getCurrentPosition() + position;
+
+        // Set the motor's target position for encoder-based movement
+        SlideH.setTargetPosition(sideSlideT);
+
+        // Configure the motor to run to the specified position
+        SlideH.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // Reset the runtime timer to measure how long the operation takes
+        runtime.reset();
+
+        // Set the motor power to the specified speed to start moving
+        SlideH.setPower(speed);
+
+        // Continuously monitor the motor's progress while the operation is active and within the timeout limit
+        while (opModeIsActive.get() && SlideH.isBusy() && runtime.seconds() < timeout) {
+            // Retrieve the current encoder position of the motor
+            final int currentPosition = SlideH.getCurrentPosition();
+
+            telemetry.addLine()
+                    .addData("target position", sideSlideT)
+                    .addData("current position", currentPosition)
+                    .addData("completion", String.format(Locale.CANADA, "%d%%", (currentPosition / sideSlideT) * 100));
+        }
+
+        // Stop the motor and set the motor to RUN_USING_ENCODER mode
+        SlideH.setPower(0);
+        SlideH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
 //    public void rotateThingyIntoBasket() {
 //        // Might break because Emmy didn't give shit
 //        Thing2.setPosition(0);
@@ -244,23 +329,33 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
         INTAKE, OUTTAKE, IDLE
     }
 
+    /**
+     * Operates the robot's intake mechanism for grabbing or releasing objects.
+     *
+     * @param intake The desired intake state (INTAKE, OUTTAKE, or IDLE).
+     * @param timeoutS The duration (in seconds) for which the intake mechanism should operate.
+     */
     public void intake(Intake intake, double timeoutS){
 
         // MUST RESET RUNTIME SO TIMER IS IN SYNC WITH METHOD
         runtime.reset();
 
+        // Operate the intake mechanism for the specified duration
         while(runtime.seconds() < timeoutS)
         {
         switch(intake) {
             case INTAKE:
+                // Set servo positions for intake
                 RightC.setPosition(1);
                 LeftC.setPosition(0);
                 break;
             case OUTTAKE:
+                // Set servo positions for outtake
                 RightC.setPosition(0);
                 LeftC.setPosition(1);
                 break;
             case IDLE:
+                // Set servos to idle position
                 RightC.setPosition(0.5);
                 LeftC.setPosition(0.5);
                 break;
@@ -271,13 +366,19 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
         }
     }
 
-    public void ArmPos(int ArmPos, double timeout){
+    /**
+     * Moves the arm to a specific encoder position.
+     *
+     * @param ArmPos The target position for the arm motor in encoder counts.
+     * @param timeout The maximum time (in seconds) to complete the movement.
+     */
+    public void ArmPos(int ArmPos, double timeout) {
+            // Reset runtime to ensure the timer is in sync with the method
+            runtime.reset();
 
-        runtime.reset();
-
-        while(runtime.seconds() < timeout)
-        {
-            Arm.setTargetPosition(ArmPos);
+            // Move the arm to the target position within the timeout period
+            while (runtime.seconds() < timeout) {
+                Arm.setTargetPosition(ArmPos);
+            }
         }
-    }
 }
