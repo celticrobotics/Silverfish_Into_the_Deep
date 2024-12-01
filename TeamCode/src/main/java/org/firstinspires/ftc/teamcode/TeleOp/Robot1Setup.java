@@ -70,4 +70,46 @@ public class Robot1Setup {
 
         upSlide.setDirection(DcMotorSimple.Direction.REVERSE);
     }
+
+    public void getTelemetry(){
+        telemetry.addData("Elbow", Elbow.getPosition());
+        telemetry.addData("Wrist", Wrist.getPosition());
+        telemetry.addData("Claw", Claw.getPosition());
+        telemetry.addData("SideSlide", sideSlide.getCurrentPosition());
+        telemetry.addData("UpSlide", upSlide.getCurrentPosition());
+        telemetry.update();
+    }
+
+    public void move(double rbPower, double lbPower, double rfPower, double lfPower){
+        rightBack.setPower(rbPower);
+        leftBack.setPower(lbPower);
+        rightFront.setPower(rfPower);
+        leftFront.setPower(lfPower);
+    }
+
+    public void setElbow(boolean rotation){
+        if (rotation){
+            Elbow.setPosition(0.95);
+        } else {
+            Elbow.setPosition(0.3);
+        }
+    }
+
+    public void setWrist(boolean rotation){
+        if (rotation){
+            Wrist.setPosition(0.5);
+        } else {
+            Wrist.setPosition(0.1);
+        }
+    }
+
+    public void setUpSlidePos(boolean direction){
+        if (direction) {
+            upSlide.setTargetPosition(1500);
+            upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else {
+            upSlide.setTargetPosition(0);
+            upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+    }
 }
