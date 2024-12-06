@@ -46,7 +46,7 @@ public class Qualifier_Robot extends LinearOpMode {
         waitForStart();
 
         //Claw.setPosition(0);
-        sideSlide.setTargetPosition(800);
+        //sideSlide.setTargetPosition(800);
 
         while(opModeIsActive())
         {

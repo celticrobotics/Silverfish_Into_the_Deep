@@ -12,15 +12,22 @@ public class Basic_Servo_Test extends LinearOpMode {
         Servo Servo;
         double ServoPos;
         Servo Wrist;
+        Servo Elbow;
 
         Servo = hardwareMap.get(Servo.class, "Thing 1");
+<<<<<<< Updated upstream
         Wrist = hardwareMap.get(Servo.class, "Claw wrist");
-
+        Elbow = hardwareMap.get(Servo.class, "Elbow");
+=======
+>>>>>>> Stashed changes
 
         waitForStart();
 
-        Servo.setPosition(0.9);
-        Wrist.setPosition(0);
+        Servo.setPosition(0);
+<<<<<<< Updated upstream
+        Wrist.setPosition(0.5);
+=======
+>>>>>>> Stashed changes
 
         while(opModeIsActive()){
 
@@ -29,22 +36,33 @@ public class Basic_Servo_Test extends LinearOpMode {
 
             if(gamepad1.x)
             {
+<<<<<<< Updated upstream
+                Servo.setPosition(1);
+=======
                 Servo.setPosition(0.5);
+>>>>>>> Stashed changes
             }
             else if(gamepad1.b)
             {
                 Servo.setPosition(0);
             }
 
-            if(gamepad2.a)
+            if(gamepad1.a)
             {
-                Wrist.setPosition(0);
+                Wrist.setPosition(0.1);
             }
-            else if(gamepad2.y)
+            else if(gamepad1.y)
             {
-                Wrist.setPosition(0.6);
+                Wrist.setPosition(0.44);
             }
 
+            if (gamepad1.dpad_right){
+                Elbow.setPosition(0.8);
+            } else if(gamepad1.dpad_left) {
+                Elbow.setPosition(0.1);
+            }
+
+            telemetry.addData("Elbow", Elbow.getPosition());
             telemetry.addData("Claw Pos", Servo.getPosition());
             telemetry.addData("Wrist Pos", Wrist.getPosition());
 
