@@ -11,13 +11,17 @@ public class new_auto_skibidi extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         AutonomousTestV2withsigmaBrandonandOliver Auto = new AutonomousTestV2withsigmaBrandonandOliver(hardwareMap, telemetry, this::opModeIsActive, this::sleep);
 
-        //idk_man.setup();
-        //idk_man.fwd(0.5, 10, 2);
+        Auto.setup();
         //Auto for blue right:
         //Strafe one Tile
         //Forward one Tile
 
-        Auto.intake(Intake.OUTTAKE, 10);
-        Auto.ArmPos(1000,2);
+        Auto.turn(0.5, 90, 2);
+        Auto.fwd(0.5, 10, 2);
+        Auto.moveVerticalLinearSlide(0.5, 300, 10);
+        Auto.rotateOurElbow(0.95);
+        Auto.rotateThingyIntoBasket();
+        Auto.origin();
+        //Auto.ArmPos(1000, 2);
     }
 }
