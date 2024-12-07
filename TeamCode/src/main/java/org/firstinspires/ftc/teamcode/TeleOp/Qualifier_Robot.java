@@ -69,6 +69,7 @@ public class Qualifier_Robot extends LinearOpMode {
 
             Move();
 
+            // UpSlide Control
             setUpSlidePos();
 
             // Control slides by tic increase
@@ -210,7 +211,7 @@ public class Qualifier_Robot extends LinearOpMode {
         // The Y axis of a joystick ranges from -1 in its topmost position to +1 in its bottommost position.
         // We negate this value so that the topmost position corresponds to maximum forward power.
         FR.setPower(0.5 * (1 * -gamepad1.left_stick_y + 1 * (1 * -gamepad1.left_stick_x - gamepad1.right_stick_x)));
-        FL.setPower(0.5 * (1 * gamepad1.left_stick_y + 1 * -(1 * gamepad1.left_stick_x + gamepad1.right_stick_x)));
+        FL.setPower(0.5 * (1 * -gamepad1.left_stick_y + 1 * -(1 * gamepad1.left_stick_x + gamepad1.right_stick_x)));
     }
 
 
@@ -252,7 +253,7 @@ public class Qualifier_Robot extends LinearOpMode {
 //        rightFront.setPower(rfPower);
 //        leftFront.setPower(lfPower);
 //    }
-    
+
     public void setElbow(boolean rotation){
         if (rotation){
             Elbow.setPosition(0.95);
@@ -268,13 +269,13 @@ public class Qualifier_Robot extends LinearOpMode {
         }
     }
 
-    public void setUpSlidePos(boolean direction){
-        if (direction) {
-            upSlide.setTargetPosition(1500);
-            upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else {
-            upSlide.setTargetPosition(0);
-            upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-    }
+//    public void setUpSlidePos(boolean direction){
+//        if (direction) {
+//            upSlide.setTargetPosition(1500);
+//            upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        } else {
+//            upSlide.setTargetPosition(0);
+//            upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        }
+//    }
 }
