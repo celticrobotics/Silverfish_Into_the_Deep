@@ -59,6 +59,8 @@ public class Qualifier_Robot extends LinearOpMode {
         Elbow.setPosition(0.1);
         Wrist.setPosition(0.44);
         sideSlide.setTargetPosition(300);
+        upSlide.setTargetPosition(0);
+        Bucket.setPosition(0.17);
 
         while(opModeIsActive())
         {
@@ -93,24 +95,36 @@ public class Qualifier_Robot extends LinearOpMode {
             if(gamepad1.a)
             {
                 //Sample Horizontal
-                Wrist.setPosition(0.1);
+                Wrist.setPosition(0.44);
             }
-            else if(gamepad1.y)
+            else
             {
                 //Sample Vertical
-                Wrist.setPosition(0.44);
+                Wrist.setPosition(0.1);
             }
 
             // Elbow Control
-            if (gamepad1.right_stick_button)
+            if (gamepad1.right_bumper)
             {
                 //Elbow up
                 Elbow.setPosition(0.8);
             }
-            else if(gamepad1.left_stick_button)
+            else if(gamepad1.left_bumper)
             {
                 //Elbow down
-                Elbow.setPosition(0.1);
+                Elbow.setPosition(0.07);
+            }
+
+            // Bucket Control
+            if (gamepad1.y)
+            {
+                //Bucket up
+                Bucket.setPosition(0.5);
+            }
+            else
+            {
+                //Elbow down
+                Bucket.setPosition(0.1);
             }
 
             //Display telemetry
@@ -127,8 +141,6 @@ public class Qualifier_Robot extends LinearOpMode {
         }
 
     }
-
-
 
     // Setup: HardwareMap, motor direction, set brake, encoder setup(Run using encoders, reset encoders)
     public void setup() {
@@ -151,6 +163,7 @@ public class Qualifier_Robot extends LinearOpMode {
         BR.setDirection(DcMotor.Direction.FORWARD);
 
         upSlide.setDirection(DcMotorSimple.Direction.REVERSE);
+        sideSlide.setDirection(DcMotorSimple.Direction.REVERSE);
 
         FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
