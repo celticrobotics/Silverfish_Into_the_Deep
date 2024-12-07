@@ -73,10 +73,13 @@ public class Qualifier_Robot extends LinearOpMode {
 
             // Control slides by tic increase
             if (gamepad1.dpad_right) {
-                sideSlidePos += 75;
+                sideSlidePos += 10;
+                sideSlide.setTargetPosition(sideSlidePos);
 
             } else if (gamepad1.dpad_left) {
-                sideSlidePos -= 75;
+                sideSlidePos -= 10;
+                sideSlide.setTargetPosition(sideSlidePos);
+
             }
 
             //Claw Control
@@ -206,11 +209,11 @@ public class Qualifier_Robot extends LinearOpMode {
         // The Y axis of a joystick ranges from -1 in its topmost position to +1 in its bottommost position.
         // We negate this value so that the topmost position corresponds to maximum forward power.
         BR.setPower(0.5 * (1 * -gamepad1.left_stick_y + 1 * (1 * gamepad1.left_stick_x - gamepad1.right_stick_x)));
-        BL.setPower(0.5 * (1 * -gamepad1.left_stick_y + 1 * (1 * -gamepad1.left_stick_x - gamepad1.right_stick_x)));
+        BL.setPower(0.5 * (1 * -gamepad1.left_stick_y + 1 * (1 * -gamepad1.left_stick_x + gamepad1.right_stick_x)));
         // The Y axis of a joystick ranges from -1 in its topmost position to +1 in its bottommost position.
         // We negate this value so that the topmost position corresponds to maximum forward power.
         FR.setPower(0.5 * (1 * -gamepad1.left_stick_y + 1 * (1 * -gamepad1.left_stick_x - gamepad1.right_stick_x)));
-        FL.setPower(0.5 * (1 * gamepad1.left_stick_y + 1 * -(1 * gamepad1.left_stick_x + gamepad1.right_stick_x)));
+        FL.setPower(0.5 * (1 * -gamepad1.left_stick_y + 1 * (1 * gamepad1.left_stick_x + gamepad1.right_stick_x)));
     }
 
 
