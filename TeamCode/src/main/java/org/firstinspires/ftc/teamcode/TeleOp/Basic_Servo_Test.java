@@ -9,18 +9,19 @@ public class Basic_Servo_Test extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        Servo Servo;
+        Servo Claw;
         double ServoPos;
         Servo Wrist;
+        Servo Elbow;
 
-        Servo = hardwareMap.get(Servo.class, "Thing 1");
+        Claw = hardwareMap.get(Servo.class, "Thing 1");
         Wrist = hardwareMap.get(Servo.class, "Claw wrist");
-
+        Elbow = hardwareMap.get(Servo.class, "Elbow");
 
         waitForStart();
 
-        Servo.setPosition(0.9);
-        Wrist.setPosition(0);
+        Claw.setPosition(0);
+        Wrist.setPosition(0.44);
 
         while(opModeIsActive()){
 
@@ -29,23 +30,39 @@ public class Basic_Servo_Test extends LinearOpMode {
 
             if(gamepad1.x)
             {
-                Servo.setPosition(0.5);
+                // Closed
+                Claw.setPosition(1);
             }
             else if(gamepad1.b)
             {
-                Servo.setPosition(0);
+                //Open
+                Claw.setPosition(0);
             }
 
             if(gamepad1.a)
             {
-                Wrist.setPosition(0);
+                //Sample Horizontal
+                Wrist.setPosition(0.1);
             }
             else if(gamepad1.y)
             {
-                Wrist.setPosition(0.6);
+                //Sample Vertical
+                Wrist.setPosition(0.44);
             }
 
-            telemetry.addData("Claw Pos", Servo.getPosition());
+            if (gamepad1.dpad_right)
+            {
+                //Elbow up
+                Elbow.setPosition(0.8);
+            }
+            else if(gamepad1.dpad_left)
+            {
+                //Elbow down
+                Elbow.setPosition(0.1);
+            }
+
+            telemetry.addData("Elbow", Elbow.getPosition());
+            telemetry.addData("Claw Pos", Claw.getPosition());
             telemetry.addData("Wrist Pos", Wrist.getPosition());
 
             telemetry.update();
