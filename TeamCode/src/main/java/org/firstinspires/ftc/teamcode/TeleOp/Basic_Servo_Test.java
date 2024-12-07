@@ -36,11 +36,11 @@ public class Basic_Servo_Test extends LinearOpMode {
                 Servo.setPosition(0);
             }
 
-            if(gamepad2.a)
+            if(gamepad1.a)
             {
                 Wrist.setPosition(0);
             }
-            else if(gamepad2.y)
+            else if(gamepad1.y)
             {
                 Wrist.setPosition(0.6);
             }

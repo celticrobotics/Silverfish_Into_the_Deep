@@ -164,8 +164,6 @@ public class Qualifier_Robot extends LinearOpMode {
         }
     }
 
-
-
     public void setUpSlidePos(boolean direction){
         if (direction) {
             upSlide.setTargetPosition(1500);
