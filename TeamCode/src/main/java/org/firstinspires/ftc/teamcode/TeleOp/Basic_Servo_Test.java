@@ -14,55 +14,55 @@ public class Basic_Servo_Test extends LinearOpMode {
         Servo Wrist;
         Servo Elbow;
 
-        Claw = hardwareMap.get(Servo.class, "Thing 1");
+        //Claw = hardwareMap.get(Servo.class, "Thing 1");
         Wrist = hardwareMap.get(Servo.class, "Claw wrist");
-        Elbow = hardwareMap.get(Servo.class, "Elbow");
+        //Elbow = hardwareMap.get(Servo.class, "Elbow");
 
         waitForStart();
 
-        Claw.setPosition(0);
-        Wrist.setPosition(0.44);
+        //Claw.setPosition(0);
+        //Wrist.setPosition(0.44);
 
         while(opModeIsActive()){
 
             //ServoPos = -this.gamepad1.left_stick_y;
             //Servo.setPosition(ServoPos);
 
-            if(gamepad1.x)
-            {
-                // Closed
-                Claw.setPosition(1);
-            }
-            else if(gamepad1.b)
-            {
-                //Open
-                Claw.setPosition(0);
-            }
+//            if(gamepad1.x)
+//            {
+//                // Closed
+//                Claw.setPosition(1);
+//            }
+//            else if(gamepad1.b)
+//            {
+//                //Open
+//                Claw.setPosition(0);
+//            }
 
             if(gamepad1.a)
             {
                 //Sample Horizontal
-                Wrist.setPosition(0.1);
+                Wrist.setPosition(0);
             }
             else if(gamepad1.y)
             {
                 //Sample Vertical
-                Wrist.setPosition(0.44);
+                Wrist.setPosition(0.28);
             }
+//
+//            if (gamepad1.dpad_right)
+//            {
+//                //Elbow up
+//                Elbow.setPosition(0.8);
+//            }
+//            else if(gamepad1.dpad_left)
+//            {
+//                //Elbow down
+//                Elbow.setPosition(0.1);
+//            }
 
-            if (gamepad1.dpad_right)
-            {
-                //Elbow up
-                Elbow.setPosition(0.8);
-            }
-            else if(gamepad1.dpad_left)
-            {
-                //Elbow down
-                Elbow.setPosition(0.1);
-            }
-
-            telemetry.addData("Elbow", Elbow.getPosition());
-            telemetry.addData("Claw Pos", Claw.getPosition());
+            //telemetry.addData("Elbow", Elbow.getPosition());
+            //telemetry.addData("Claw Pos", Claw.getPosition());
             telemetry.addData("Wrist Pos", Wrist.getPosition());
 
             telemetry.update();

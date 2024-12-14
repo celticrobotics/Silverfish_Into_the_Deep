@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import org.firstinspires.ftc.teamcode.Autonomous.AutonomousTestV2withsigmaBrandonandOliver.Intake;
 
 
 @Autonomous
@@ -12,16 +11,33 @@ public class new_auto_skibidi extends LinearOpMode {
         AutonomousTestV2withsigmaBrandonandOliver Auto = new AutonomousTestV2withsigmaBrandonandOliver(hardwareMap, telemetry, this::opModeIsActive, this::sleep);
 
         Auto.setup();
-        //Auto for blue right:
-        //Strafe one Tile
-        //Forward one Tile
 
-        Auto.turn(0.5, 90, 2);
-        Auto.fwd(0.5, 10, 2);
-        Auto.moveVerticalLinearSlide(0.5, 300, 10);
-        Auto.rotateOurElbow(0.95);
-        Auto.rotateThingyIntoBasket();
-        Auto.origin();
-        //Auto.ArmPos(1000, 2);
+        waitForStart();
+
+        Auto.Initialization();
+
+        Auto.strafe(0.5, -16, 2);
+        Auto.turn(0.5, -45, 2);
+        Auto.fwd(0.5, -14, 2);
+        Auto.strafe(0.5, -2, 1);
+        Auto.moveVerticalLinearSlide(1, 4000);
+        Auto.rotateThingyIntoBasket(2);
+        Auto.origin(2);
+        Auto.turn(0.5, -57, 2);
+        Auto.strafe(0.5, 3.5, 2);
+        Auto.fwd(0.5, 12, 2);
+        Auto.moveHorizontalLinearSlide(0.5, 300, 2);
+        Auto.ClawMove(AutonomousTestV2withsigmaBrandonandOliver.ClawPosition.CLOSED, 2);
+        Auto.ElbowMove(AutonomousTestV2withsigmaBrandonandOliver.ElbowPos.UP, 2);
+        Auto.ClawMove(AutonomousTestV2withsigmaBrandonandOliver.ClawPosition.OPEN, 2);
+        Auto.ElbowMove(AutonomousTestV2withsigmaBrandonandOliver.ElbowPos.DOWN, 2);
+        Auto.fwd(0.5, -13.8, 2);
+        Auto.turn(0.5, 45, 2);
+        Auto.strafe(0.5, -3, 1);
+        Auto.fwd(0.5, -4, 1);
+        Auto.moveVerticalLinearSlide(1, 4000);
+        Auto.rotateThingyIntoBasket(2);
+        Auto.origin(3);
+
     }
 }

@@ -11,7 +11,7 @@ public class Basic_Motor_Test extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         DcMotor Slide;
 
-        Slide = hardwareMap.get(DcMotor.class, "Slide");
+        Slide = hardwareMap.get(DcMotor.class, "upSlide");
         //Slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //Slide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //Slide.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -21,7 +21,9 @@ public class Basic_Motor_Test extends LinearOpMode {
 
         while(opModeIsActive())
         {
-            Slide.setPower(1);
+            Slide.setPower(-1);
+
+            telemetry.addData("Position: ", Slide.getCurrentPosition());
 
         }
     }

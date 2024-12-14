@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name = "Qualifier Robot Code")
+@TeleOp(name = "Qualifier Robot First Version")
 public class Qualifier_Robot extends LinearOpMode {
 //    private final HardwareMap hardwareMap;
 //    private final Telemetry telemetry;
@@ -47,6 +47,7 @@ public class Qualifier_Robot extends LinearOpMode {
 
     int sideSlidePos;
     int upSlidePos;
+    double setSpeed = 0.5;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -57,82 +58,88 @@ public class Qualifier_Robot extends LinearOpMode {
 
         Claw.setPosition(0);
         Elbow.setPosition(0.1);
-        Wrist.setPosition(0.44);
+        Wrist.setPosition(0);
         sideSlide.setTargetPosition(300);
         upSlide.setTargetPosition(0);
-        Bucket.setPosition(0.17);
+        Bucket.setPosition(0.1);
 
-        while(opModeIsActive())
-        {
+        while (opModeIsActive()) {
             sideSlide.setPower(0.5);
-            upSlide.setPower(0.5);
+            upSlide.setPower(1);
 
-            Move();
+            if (gamepad2.left_stick_button) {
+                setSpeed = 1;
+            } else {
+                setSpeed = 0.5;
+            }
 
-            setUpSlidePos();
+            Move(setSpeed);
 
             // Control slides by tic increase
             if (gamepad1.dpad_right) {
-                sideSlidePos += 75;
+                sideSlidePos += 10;
+                sideSlide.setTargetPosition(sideSlidePos);
 
             } else if (gamepad1.dpad_left) {
-                sideSlidePos -= 75;
+                sideSlidePos -= 10;
+                sideSlide.setTargetPosition(sideSlidePos);
             }
 
             //Claw Control
-            if(gamepad1.x)
-            {
+            if (gamepad1.x) {
                 // Closed
                 Claw.setPosition(1);
-            }
-            else if(gamepad1.b)
-            {
+            } else if (gamepad1.b) {
                 //Open
                 Claw.setPosition(0);
             }
 
             // Wrist control
-            if(gamepad1.a)
-            {
+            if (gamepad1.a) {
                 //Sample Horizontal
-                Wrist.setPosition(0.44);
-            }
-            else
-            {
+                Wrist.setPosition(0.28);
+            } else {
                 //Sample Vertical
-                Wrist.setPosition(0.1);
+                Wrist.setPosition(0);
             }
 
             // Elbow Control
-            if (gamepad1.right_bumper)
-            {
+            if (gamepad1.right_bumper) {
                 //Elbow up
                 Elbow.setPosition(0.8);
-            }
-            else if(gamepad1.left_bumper)
-            {
+            } else if (gamepad1.left_bumper) {
                 //Elbow down
                 Elbow.setPosition(0.07);
             }
 
             // Bucket Control
-            if (gamepad1.y)
-            {
+            if (gamepad1.y) {
                 //Bucket up
                 Bucket.setPosition(0.5);
-            }
-            else
-            {
+            } else {
                 //Elbow down
                 Bucket.setPosition(0.1);
             }
+
+            if (gamepad2.right_bumper) {
+                upSlide.setTargetPosition(4000);
+            } else if (gamepad2.left_bumper) {
+                upSlide.setTargetPosition(0);
+            }
+
+            if(upSlide.getCurrentPosition() > 200)
+            {
+                Elbow.setPosition(0.07);
+            }
+
+            // Dedicated hang buttons for endgame
 
             //Display telemetry
             getTelemetry();
 
             // Slide Constraints --> SIDE SLIDE MUST BE BELOW 1900 FOR COMP (Horizontal expansion limit)
             upSlidePos = Math.max(0, Math.min(4000, upSlidePos));
-            sideSlidePos = Math.max(0, Math.min(1900, sideSlidePos));
+            sideSlidePos = Math.max(300, Math.min(1900, sideSlidePos));
 
             // Slides run to pos
             upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -181,76 +188,25 @@ public class Qualifier_Robot extends LinearOpMode {
     }
 
     //Display telemetry during opMode: All servos and both slides positions
-    public void getTelemetry(){
+    public void getTelemetry() {
         telemetry.addData("Elbow", Elbow.getPosition());
         telemetry.addData("Wrist", Wrist.getPosition());
         telemetry.addData("Claw", Claw.getPosition());
         telemetry.addData("SideSlide", sideSlide.getCurrentPosition());
         telemetry.addData("UpSlide", upSlide.getCurrentPosition());
+        telemetry.addData("Turbo:", setSpeed);
         telemetry.update();
     }
 
-
-    public void setUpSlidePos(){
-        if (gamepad1.dpad_up)
-        {
-            upSlide.setTargetPosition(4000);
-        }
-        else if(gamepad1.dpad_down)
-        {
-            upSlide.setTargetPosition(0);
-        }
-    }
-
-    private void Move() {
+    private void Move(double speed) {
         // The Y axis of a joystick ranges from -1 in its topmost position to +1 in its bottommost position.
         // We negate this value so that the topmost position corresponds to maximum forward power.
-        BR.setPower(0.5 * (1 * -gamepad1.left_stick_y + 1 * (1 * gamepad1.left_stick_x - gamepad1.right_stick_x)));
-        BL.setPower(0.5 * (1 * -gamepad1.left_stick_y + 1 * (1 * -gamepad1.left_stick_x - gamepad1.right_stick_x)));
+        BR.setPower(speed * (1 * -gamepad2.left_stick_y + 1 * (1 * gamepad2.left_stick_x - gamepad2.right_stick_x)));
+        BL.setPower(speed * (1 * -gamepad2.left_stick_y + 1 * (1 * -gamepad2.left_stick_x + gamepad2.right_stick_x)));
         // The Y axis of a joystick ranges from -1 in its topmost position to +1 in its bottommost position.
         // We negate this value so that the topmost position corresponds to maximum forward power.
-        FR.setPower(0.5 * (1 * -gamepad1.left_stick_y + 1 * (1 * -gamepad1.left_stick_x - gamepad1.right_stick_x)));
-        FL.setPower(0.5 * (1 * gamepad1.left_stick_y + 1 * -(1 * gamepad1.left_stick_x + gamepad1.right_stick_x)));
+        FR.setPower(speed * (1 * -gamepad2.left_stick_y + 1 * (1 * -gamepad2.left_stick_x - gamepad2.right_stick_x)));
+        FL.setPower(speed * (1 * -gamepad2.left_stick_y + 1 * (1 * gamepad2.left_stick_x + gamepad2.right_stick_x)));
     }
-
-
-//    public void setElbow(boolean rotation){
-//        if (rotation)
-//        {
-//            Elbow.setPosition(0.8);
-//        } else
-//        {
-//            Elbow.setPosition(0.1);
-//        }
-//    }
-//    public void setWrist(boolean rotation){
-//        if (rotation){
-//            Wrist.setPosition(0.5);
-//        } else {
-//            Wrist.setPosition(0.1);
-//        }
-//    }
-
-//            move((0.5 * (1 * -gamepad1.left_stick_y + 1 * (1 * gamepad1.left_stick_x - gamepad1.right_stick_x))),
-//                    (0.5 * (1 * gamepad1.left_stick_y + 1 * (1 * gamepad1.left_stick_x - gamepad1.right_stick_x))),
-//                    (0.5 * (1 * -gamepad1.left_stick_y + 1 * (1 * -gamepad1.left_stick_x - gamepad1.right_stick_x))),
-//                    (0.5 * (1 * gamepad1.left_stick_y + 1 * -(1 * gamepad1.left_stick_x + gamepad1.right_stick_x))));
-
-//            if (gamepad1.a){
-//                // Sets Wrist position to 0.5
-//                Wrist.setPosition(0.5);
-//            } else if (gamepad1.y){
-//                // Sets Wrist position to 0.1
-//                Wrist.setPosition(0.1);
-//            }
-
-// Currently moved, code above needs to be in the while loop to function
-
-//    public void move(double rbPower, double lbPower, double rfPower, double lfPower){
-//        rightBack.setPower(rbPower);
-//        leftBack.setPower(lbPower);
-//        rightFront.setPower(rfPower);
-//        leftFront.setPower(lfPower);
-//    }
 
 }

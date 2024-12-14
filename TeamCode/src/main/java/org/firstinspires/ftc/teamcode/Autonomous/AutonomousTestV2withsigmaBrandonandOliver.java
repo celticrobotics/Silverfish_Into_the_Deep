@@ -219,43 +219,39 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
         upSlide.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
+    public void Initialization()
+    {
+        Claw.setPosition(0);
+        Elbow.setPosition(0.1);
+        Wrist.setPosition(0);
+        sideSlide.setTargetPosition(300);
+        upSlide.setTargetPosition(0);
+        Bucket.setPosition(0.1);
+
+        sideSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
     /**
      * Moves the vertical linear slide to a specified position using encoder counts.
      *
      * @param speed The power to apply to the motor (range: 0.0 to 1.0).
      * //@param position The target position in encoder counts to move the slide to, relative to its current position.
-     * @param timeout The maximum time (in seconds) to allow the slide to reach the target position.
      */
-    public void moveVerticalLinearSlide(double speed, int position, int timeout){
-        // Calculate the target position by adding the desired movement to the current encoder position
-        int upSlideT = upSlide.getCurrentPosition() + position;
+    public void moveVerticalLinearSlide(double speed, int position){
 
-        // Set the motor's target position for encoder-based movement
-        upSlide.setTargetPosition(upSlideT);
-
-        // Configure the motor to run to the specified position
+        // Set the motor power to the specified speed to start moving
+        upSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        upSlide.setPower(speed);
+        upSlide.setTargetPosition(position);
         upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Reset the runtime timer to measure how long the operation takes
-        runtime.reset();
-
-        // Set the motor power to the specified speed to start moving
-        upSlide.setPower(speed);
-
         // Continuously monitor the motor's progress while the operation is active and within the timeout limit
-        while (opModeIsActive.get() && upSlide.isBusy() && runtime.seconds() < timeout) {
-            // Retrieve the current encoder position of the motor
-            final int currentPosition = upSlide.getCurrentPosition();
-
-            telemetry.addLine()
-                    .addData("target position", upSlideT)
-                    .addData("current position", currentPosition)
-                    .addData("completion", String.format(Locale.CANADA, "%d%%", (currentPosition * 100) / upSlideT));
+        while(upSlide.isBusy())
+        {
+            telemetry.addData("UpslidePos", upSlide.getCurrentPosition());
+            telemetry.update();
         }
-
-        // Stop the motor and set the motor to RUN_USING_ENCODER mode
-        upSlide.setPower(0);
-        upSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     /**
@@ -285,11 +281,11 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
         while (opModeIsActive.get() && sideSlide.isBusy() && runtime.seconds() < timeout) {
             // Retrieve the current encoder position of the motor
             final int currentPosition = sideSlide.getCurrentPosition();
-
-            telemetry.addLine()
-                    .addData("target position", sideSlideT)
-                    .addData("current position", currentPosition)
-                    .addData("completion", String.format(Locale.CANADA, "%d%%", (currentPosition / sideSlideT) * 100));
+//
+//            telemetry.addLine()
+//                    .addData("target position", sideSlideT)
+//                    .addData("current position", currentPosition)
+//                    .addData("completion", String.format(Locale.CANADA, "%d%%", (currentPosition / sideSlideT) * 100));
         }
 
         // Stop the motor and set the motor to RUN_USING_ENCODER mode
@@ -297,10 +293,13 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
         sideSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-   public void rotateThingyIntoBasket() throws InterruptedException {
-       Bucket.setPosition(0.1);
-       sleep(600);
-       Bucket.setPosition(0.5);
+   public void rotateThingyIntoBasket(int timeoutS) throws InterruptedException {
+        runtime.reset();
+        while(runtime.seconds() < timeoutS)
+        {
+            Bucket.setPosition(0.5);
+        }
+        Bucket.setPosition(0.1);
    }
 //   public void scoreBlockThingy() throws InterruptedException {
 //       moveVerticalLinearSlide(0.7, 4000, 5);
@@ -321,17 +320,19 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
        Elbow.setPosition(position);
    }
 
-    public enum Intake{
-        INTAKE, OUTTAKE, IDLE
-    }
+
 
     /**
      * Operates the robot's intake mechanism for grabbing or releasing objects.
      *
-     * @param intake The desired intake state (INTAKE, OUTTAKE, or IDLE).
-     * @param timeoutS The duration (in seconds) for which the intake mechanism should operate.
+   //  * @param intake The desired intake state (INTAKE, OUTTAKE, or IDLE).
+     //* @param timeoutS The duration (in seconds) for which the intake mechanism should operate.
      */
-    public void intake(Intake intake, double timeoutS){
+
+    public enum ClawPosition {
+        OPEN, CLOSED;
+    }
+    public void ClawMove(ClawPosition claw, double timeoutS){
 
         // MUST RESET RUNTIME SO TIMER IS IN SYNC WITH METHOD
         runtime.reset();
@@ -339,13 +340,13 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
         // Operate the intake mechanism for the specified duration
         while(runtime.seconds() < timeoutS)
         {
-        switch(intake) {
-            case INTAKE:
+        switch(claw) {
+            case OPEN:
                 // Set servo positions for intake
                 //RightC.setPosition(1);
                 Claw.setPosition(0);
                 break;
-            case OUTTAKE:
+            case CLOSED:
                 // Set servo positions for outtake
                 //RightC.setPosition(0);
                 Claw.setPosition(1);
@@ -362,37 +363,71 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
         }
     }
 
-//    /**
-//     * Moves the arm to a specific encoder position.
-//     *
-//     * @param ArmPos The target position for the arm motor in encoder counts.
-//     * @param timeout The maximum time (in seconds) to complete the movement.
-//     */
-//    public void ArmPos(int ArmPos, double timeout) {
-//            // Reset runtime to ensure the timer is in sync with the method
-//            runtime.reset();
-//
-//            // Move the arm to the target position within the timeout period
-//            while (runtime.seconds() < timeout) {
-//                Arm.setTargetPosition(ArmPos);
-//            }
-//        }
-    public void origin(){
-        if (upSlide.getCurrentPosition() > 0 || sideSlide.getCurrentPosition() > 0){
-            upSlide.setPower(0.5);
-            sideSlide.setPower(0.5);
-            upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            sideSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            upSlide.setTargetPosition(upSlide.getCurrentPosition() * -1);
-            sideSlide.setTargetPosition(sideSlide.getCurrentPosition() * -1);
-            while (opModeIsActive.get() && upSlide.isBusy() || sideSlide.isBusy()){
-                telemetry.addLine("Returning to origin");
-                telemetry.update();
+    public enum WristPos {
+        HORI, VERTI;
+    }
+    public void WristMove(WristPos wrist, double timeoutS){
+
+        // MUST RESET RUNTIME SO TIMER IS IN SYNC WITH METHOD
+        runtime.reset();
+
+        // Operate the intake mechanism for the specified duration
+        while(runtime.seconds() < timeoutS)
+        {
+            switch(wrist) {
+                case HORI:
+                    // Set servo positions for intake
+                    //RightC.setPosition(1);
+                    Wrist.setPosition(0.28);
+                    break;
+                case VERTI:
+                    // Set servo positions for outtake
+                    //RightC.setPosition(0);
+                    Wrist.setPosition(0);
+                    break;
+                //break;
+                default:
+                    telemetry.addData("Wrist method Error:", "Incorrect value");
+                    telemetry.update();
             }
-            upSlide.setPower(0);
-            sideSlide.setPower(0);
-            upSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            sideSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+    }
+
+    public enum ElbowPos {
+        UP, DOWN;
+    }
+    public void ElbowMove(ElbowPos elbow, double timeoutS){
+
+        // MUST RESET RUNTIME SO TIMER IS IN SYNC WITH METHOD
+        runtime.reset();
+
+        // Operate the intake mechanism for the specified duration
+        while(runtime.seconds() < timeoutS)
+        {
+            switch(elbow) {
+                case UP:
+                    // Set servo positions for intake
+                    //RightC.setPosition(1);
+                    Elbow.setPosition(0.8);
+                    break;
+                case DOWN:
+                    // Set servo positions for outtake
+                    //RightC.setPosition(0);
+                    Elbow.setPosition(0.07);
+                    break;
+                //break;
+                default:
+                    telemetry.addData("Wrist method Error:", "Incorrect value");
+                    telemetry.update();
+            }
+        }
+    }
+
+    public void origin(int timeoutS){
+        runtime.reset();
+        while(runtime.seconds() < timeoutS){
+            upSlide.setTargetPosition(0);
+            upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
     }
 }
