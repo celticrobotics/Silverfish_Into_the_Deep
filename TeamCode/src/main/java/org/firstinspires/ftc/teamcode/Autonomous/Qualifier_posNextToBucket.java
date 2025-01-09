@@ -23,17 +23,18 @@ public class Qualifier_posNextToBucket extends LinearOpMode {
         // Backwards
         // Extends slides
         // Rotate bucket
+
         waitForStart();
 
         Auto.Initialization();
 
         Auto.strafe(0.5, -16, 2);
         Auto.turn(0.5, -45, 2);
-        Auto.fwd(0.5, -14, 2);
-        Auto.strafe(0.5, -2, 1);
+        Auto.strafe(0.5, -3, 1);
+        Auto.fwd(0.5, -19, 2);
         Auto.moveVerticalLinearSlide(1, 4000);
         Auto.rotateThingyIntoBasket(2);
-        Auto.origin(5);
+        Auto.origin(2);
 
 
 

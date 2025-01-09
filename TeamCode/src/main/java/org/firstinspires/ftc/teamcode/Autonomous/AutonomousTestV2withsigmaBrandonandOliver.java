@@ -160,7 +160,7 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
      */
     public void strafe(double speed, double distance, double timeout) {
         // Call the move method with a specific motor pattern for strafing
-        move(speed, new double[]{distance, -distance, -distance, distance}, timeout);
+        move(speed, new double[]{distance, distance, -distance, -distance}, timeout);
     }
 
     /**

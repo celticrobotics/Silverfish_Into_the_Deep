@@ -57,11 +57,11 @@ public class Qualifier_Robot extends LinearOpMode {
         waitForStart();
 
         Claw.setPosition(0);
-        Elbow.setPosition(0.1);
+        Elbow.setPosition(0.05);
         Wrist.setPosition(0);
-        sideSlide.setTargetPosition(300);
-        upSlide.setTargetPosition(0);
-        Bucket.setPosition(0.1);
+        upSlide.setTargetPosition(300);
+        Bucket.setPosition(0);
+        sideSlide.setTargetPosition(0);
 
         while (opModeIsActive()) {
             sideSlide.setPower(0.5);
@@ -71,6 +71,11 @@ public class Qualifier_Robot extends LinearOpMode {
                 setSpeed = 1;
             } else {
                 setSpeed = 0.5;
+            }
+
+            if(gamepad2.y)
+            {
+                upSlide.setTargetPosition(2000);
             }
 
             Move(setSpeed);
@@ -106,10 +111,10 @@ public class Qualifier_Robot extends LinearOpMode {
             // Elbow Control
             if (gamepad1.right_bumper) {
                 //Elbow up
-                Elbow.setPosition(0.8);
+                Elbow.setPosition(0.7);
             } else if (gamepad1.left_bumper) {
                 //Elbow down
-                Elbow.setPosition(0.07);
+                Elbow.setPosition(0.05);
             }
 
             // Bucket Control
@@ -118,16 +123,16 @@ public class Qualifier_Robot extends LinearOpMode {
                 Bucket.setPosition(0.5);
             } else {
                 //Elbow down
-                Bucket.setPosition(0.1);
+                Bucket.setPosition(0);
             }
 
             if (gamepad2.right_bumper) {
                 upSlide.setTargetPosition(4000);
             } else if (gamepad2.left_bumper) {
-                upSlide.setTargetPosition(0);
+                upSlide.setTargetPosition(300);
             }
 
-            if(upSlide.getCurrentPosition() > 200)
+            if(upSlide.getCurrentPosition() > 500)
             {
                 Elbow.setPosition(0.07);
             }
@@ -138,8 +143,10 @@ public class Qualifier_Robot extends LinearOpMode {
             getTelemetry();
 
             // Slide Constraints --> SIDE SLIDE MUST BE BELOW 1900 FOR COMP (Horizontal expansion limit)
-            upSlidePos = Math.max(0, Math.min(4000, upSlidePos));
-            sideSlidePos = Math.max(300, Math.min(1900, sideSlidePos));
+            upSlidePos = Math.max(300, Math.min(4000, upSlidePos));
+            sideSlidePos = Math.max(0, Math.min(1900, sideSlidePos));
+
+
 
             // Slides run to pos
             upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -201,11 +208,11 @@ public class Qualifier_Robot extends LinearOpMode {
     private void Move(double speed) {
         // The Y axis of a joystick ranges from -1 in its topmost position to +1 in its bottommost position.
         // We negate this value so that the topmost position corresponds to maximum forward power.
-        BR.setPower(speed * (1 * -gamepad2.left_stick_y + 1 * (1 * gamepad2.left_stick_x - gamepad2.right_stick_x)));
+        BR.setPower(speed * (1 * -gamepad2.left_stick_y + 1 * (1 * -gamepad2.left_stick_x - gamepad2.right_stick_x)));
         BL.setPower(speed * (1 * -gamepad2.left_stick_y + 1 * (1 * -gamepad2.left_stick_x + gamepad2.right_stick_x)));
         // The Y axis of a joystick ranges from -1 in its topmost position to +1 in its bottommost position.
         // We negate this value so that the topmost position corresponds to maximum forward power.
-        FR.setPower(speed * (1 * -gamepad2.left_stick_y + 1 * (1 * -gamepad2.left_stick_x - gamepad2.right_stick_x)));
+        FR.setPower(speed * (1 * -gamepad2.left_stick_y + 1 * (1 * gamepad2.left_stick_x - gamepad2.right_stick_x)));
         FL.setPower(speed * (1 * -gamepad2.left_stick_y + 1 * (1 * gamepad2.left_stick_x + gamepad2.right_stick_x)));
     }
 

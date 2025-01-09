@@ -9,13 +9,13 @@ public class Basic_Servo_Test extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        Servo Claw;
+        //Servo Claw;
         double ServoPos;
-        Servo Wrist;
-        Servo Elbow;
+        Servo Servo;
+        //Servo Elbow;
 
         //Claw = hardwareMap.get(Servo.class, "Thing 1");
-        Wrist = hardwareMap.get(Servo.class, "Claw wrist");
+        Servo = hardwareMap.get(Servo.class, "Thing2");
         //Elbow = hardwareMap.get(Servo.class, "Elbow");
 
         waitForStart();
@@ -25,8 +25,8 @@ public class Basic_Servo_Test extends LinearOpMode {
 
         while(opModeIsActive()){
 
-            //ServoPos = -this.gamepad1.left_stick_y;
-            //Servo.setPosition(ServoPos);
+            ServoPos = -this.gamepad1.left_stick_y;
+            Servo.setPosition(ServoPos);
 
 //            if(gamepad1.x)
 //            {
@@ -39,16 +39,16 @@ public class Basic_Servo_Test extends LinearOpMode {
 //                Claw.setPosition(0);
 //            }
 
-            if(gamepad1.a)
-            {
-                //Sample Horizontal
-                Wrist.setPosition(0);
-            }
-            else if(gamepad1.y)
-            {
-                //Sample Vertical
-                Wrist.setPosition(0.28);
-            }
+//            if(gamepad1.a)
+//            {
+//                //Sample Horizontal
+//                Wrist.setPosition(0);
+//            }
+//            else if(gamepad1.y)
+//            {
+//                //Sample Vertical
+//                Wrist.setPosition(0.28);
+//            }
 //
 //            if (gamepad1.dpad_right)
 //            {
@@ -63,7 +63,7 @@ public class Basic_Servo_Test extends LinearOpMode {
 
             //telemetry.addData("Elbow", Elbow.getPosition());
             //telemetry.addData("Claw Pos", Claw.getPosition());
-            telemetry.addData("Wrist Pos", Wrist.getPosition());
+            telemetry.addData("Servo Pos", Servo.getPosition());
 
             telemetry.update();
 
