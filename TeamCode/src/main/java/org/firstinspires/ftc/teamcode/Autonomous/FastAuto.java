@@ -18,9 +18,9 @@ public class FastAuto extends LinearOpMode {
 
         // Pre-Load Sample
         Auto.strafe(0.5, -10, 0.8);
-        Auto.fwd(0.5, -12, 0.8);
+        Auto.fwd(0.5, -10, 0.8);
         Auto.turn(0.5, -55, 0.7);
-        Auto.fwd(0.5, -8, 1);
+        Auto.fwd(0.5, -5, 1);
         Auto.moveVerticalLinearSlide(1, 4000);
         Auto.rotateThingyIntoBasket(2);
         Auto.origin(2);
@@ -29,7 +29,6 @@ public class FastAuto extends LinearOpMode {
         Auto.fwd(0.5, 12, 1);
         Auto.turn(0.5, -45, 1);
         Auto.fwd(0.5, 7, 1);
-        Auto.moveHorizontalLinearSlide(0.5, 300, 1);
         Auto.ClawMove(AutonomousTestV2withsigmaBrandonandOliver.ClawPosition.CLOSED, 0.7);
         Auto.ElbowMove(AutonomousTestV2withsigmaBrandonandOliver.ElbowPos.UP, 0.7);
         Auto.ClawMove(AutonomousTestV2withsigmaBrandonandOliver.ClawPosition.OPEN, 0.7);

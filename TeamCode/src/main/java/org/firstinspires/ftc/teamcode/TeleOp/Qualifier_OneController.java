@@ -71,6 +71,8 @@ public class Qualifier_OneController extends LinearOpMode {
 
         boolean hanging = false;
 
+        boolean hanged = false;
+
 
         while (opModeIsActive()) {
             sideSlide.setPower(0.5);
@@ -93,9 +95,9 @@ public class Qualifier_OneController extends LinearOpMode {
 
             // Control slides by tic increase
             if (gamepad1.dpad_right) {
-                sideSlidePos += 10;
+                sideSlidePos += 30;
             } else if (gamepad1.dpad_left) {
-                sideSlidePos -= 10;
+                sideSlidePos -= 30;
             }
 
             //Claw Control
@@ -144,37 +146,43 @@ public class Qualifier_OneController extends LinearOpMode {
 
             // Dedicated hang buttons for endgame
 
-            if(gamepad1.y) {
+            if(gamepad1.y && hanged) {
+                hanging = !hanging;
                 upSlidePos = 700;
                 Bucket.setPosition(0.5);
-                Hangup.setTargetPosition(700);
+                Hangup.setTargetPosition(500);
 
-                hanging = !hanging;
             }
             else if (!hanging){
-                Bucket.setPosition(gamepad1.right_trigger);
+                Bucket.setPosition(0.5*(gamepad1.right_trigger));
+                Hangup.setTargetPosition(0);
 
             }
 
-            if(gamepad1.right_stick_button)
+            if(gamepad1.left_trigger > 0)
             {
                 HangPos = 16000;
+                hanged = true;
+                telemetry.addLine("FJSDKJ");
             }
-            else
-            {
+            else if(hanged){
+                HangPos = 3000;
+            }
+            else {
                 HangPos = 0;
             }
+
+
 
             //Display telemetry
             getTelemetry();
 
             // Slide Constraints --> SIDE SLIDE MUST BE BELOW 1900 FOR COMP (Horizontal expansion limit)
-            upSlidePos = Range.clip(upSlidePos, 350, 3600);
+            upSlidePos = Range.clip(upSlidePos, 300, 4000);
             upSlide.setTargetPosition(upSlidePos);
             sideSlidePos = Math.max(0, Math.min(1900, sideSlidePos));
 
-
-            HangPos = Range.clip(HangPos, 0, 16000);
+            HangPos = Range.clip(HangPos, hanged ? 1000 : 0, 16000);
             Hang.setTargetPosition(HangPos);
 
             sideSlide.setTargetPosition(sideSlidePos);

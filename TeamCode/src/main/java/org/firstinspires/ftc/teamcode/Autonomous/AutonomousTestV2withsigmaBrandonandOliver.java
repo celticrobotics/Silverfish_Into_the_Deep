@@ -222,11 +222,11 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
     public void Initialization()
     {
         Claw.setPosition(0);
-        Elbow.setPosition(0.1);
+        Elbow.setPosition(0.02);
         Wrist.setPosition(0);
-        sideSlide.setTargetPosition(300);
-        upSlide.setTargetPosition(0);
-        Bucket.setPosition(0.1);
+        sideSlide.setTargetPosition(0);
+        upSlide.setTargetPosition(300);
+        Bucket.setPosition(0);
 
         sideSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -299,7 +299,7 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
         {
             Bucket.setPosition(0.5);
         }
-        Bucket.setPosition(0.1);
+        Bucket.setPosition(0);
    }
 //   public void scoreBlockThingy() throws InterruptedException {
 //       moveVerticalLinearSlide(0.7, 4000, 5);
@@ -408,12 +408,12 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
                 case UP:
                     // Set servo positions for intake
                     //RightC.setPosition(1);
-                    Elbow.setPosition(0.8);
+                    Elbow.setPosition(0.7);
                     break;
                 case DOWN:
                     // Set servo positions for outtake
                     //RightC.setPosition(0);
-                    Elbow.setPosition(0.07);
+                    Elbow.setPosition(0.02);
                     break;
                 //break;
                 default:
@@ -426,7 +426,7 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
     public void origin(int timeoutS){
         runtime.reset();
         while(runtime.seconds() < timeoutS){
-            upSlide.setTargetPosition(0);
+            upSlide.setTargetPosition(300);
             upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
     }
