@@ -430,4 +430,22 @@ public class AutonomousTestV2withsigmaBrandonandOliver {
             upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
     }
+
+    public void reset(){
+
+        runtime.reset();
+        Bucket.setPosition(0.4);
+        upSlide.setTargetPosition(0);
+        upSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ElapsedTime freaker = new ElapsedTime();
+
+        while (opModeIsActive.get() && freaker.seconds() < 100)
+            Claw.setPosition(Math.abs(Math.sin(freaker.seconds() * .5)));
+
+
+        while (upSlide.isBusy());
+    }
+
+
+
 }

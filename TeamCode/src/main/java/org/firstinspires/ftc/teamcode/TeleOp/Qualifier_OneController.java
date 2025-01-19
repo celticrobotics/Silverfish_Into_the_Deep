@@ -53,6 +53,8 @@ public class Qualifier_OneController extends LinearOpMode {
     double setSpeed = 0.5;
     int HangPos;
 
+    boolean failSafe = true;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -85,11 +87,6 @@ public class Qualifier_OneController extends LinearOpMode {
             } else {
                 setSpeed = 0.5;
             }
-
-//            if(gamepad1.y)
-//            {
-//                upSlide.setTargetPosition(2000);
-//            }
 
             Move(setSpeed);
 
@@ -127,6 +124,10 @@ public class Qualifier_OneController extends LinearOpMode {
                 Elbow.setPosition(0.02);
             }
 
+            if(gamepad1.y)
+            {
+                upSlidePos = 2000;
+            }
 
             // Bucket Control
             //Bucket.setPosition(gamepad1.right_trigger);
@@ -146,7 +147,12 @@ public class Qualifier_OneController extends LinearOpMode {
 
             // Dedicated hang buttons for endgame
 
-            if(gamepad1.y && hanged) {
+            if(gamepad1.start)
+            {
+                failSafe = false;
+            }
+
+            if(gamepad1.right_stick_button && !failSafe) {
                 hanging = !hanging;
                 upSlidePos = 700;
                 Bucket.setPosition(0.5);
@@ -159,7 +165,7 @@ public class Qualifier_OneController extends LinearOpMode {
 
             }
 
-            if(gamepad1.left_trigger > 0)
+            if(gamepad1.left_trigger > 0 && !failSafe)
             {
                 HangPos = 16000;
                 hanged = true;
@@ -198,6 +204,8 @@ public class Qualifier_OneController extends LinearOpMode {
         }
 
     }
+
+
 
     // Setup: HardwareMap, motor direction, set brake, encoder setup(Run using encoders, reset encoders)
     public void setup() {

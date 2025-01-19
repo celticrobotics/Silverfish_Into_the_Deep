@@ -5,11 +5,13 @@ import android.graphics.Color;
 import android.graphics.ColorSpace;
 
 import com.qualcomm.hardware.rev.RevColorSensorV3;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.Arrays;
 
+@Disabled
 public class Sensor {
     public Sensor(RevColorSensorV3 sensor, Telemetry t) {
         _sensor = sensor;

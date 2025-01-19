@@ -1,16 +1,10 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-// Auto for best teams
-// ONLY PARKING ON Red Right and Left Blue
-// Start facing towards observation zone
-
-@Disabled
-@Autonomous
-public class Qualifier_Park extends LinearOpMode {
+@Autonomous(name = "reset")
+public class AutoTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -21,8 +15,12 @@ public class Qualifier_Park extends LinearOpMode {
         waitForStart();
 
         Auto.Initialization();
+        Auto.moveVerticalLinearSlide(1, 300);
 
-        Auto.fwd(0.5, 4, 2);
+        Auto.rotateThingyIntoBasket(100000);
+
+        Auto.reset();
+
 
     }
 }

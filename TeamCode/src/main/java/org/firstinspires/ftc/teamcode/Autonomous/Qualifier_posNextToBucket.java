@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 // Auto for left red and right blue
 // Score preload sample top bucket
 
+@Disabled
 @Autonomous(name = "Qualifier Pos Next to Bucket")
 public class Qualifier_posNextToBucket extends LinearOpMode {
     @Override
